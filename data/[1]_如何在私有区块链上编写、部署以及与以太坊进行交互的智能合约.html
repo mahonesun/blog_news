@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="canonical" href="http://blog.csdn.net/dev_csdn/article/details/78893014"/> 
+    <script type="text/javascript">
+        var username = "dev_csdn";
+        var _blogger = username;
+        var blog_address = "http://blog.csdn.net/dev_csdn";
+        var static_host = "http://csdnimg.cn/release/phoenix/";
+        var currentUserName = ""; 
+        var fileName = '78893014';
+        var commentscount = 2;
+        var islock = false
+        window.quickReplyflag = true;
+        var totalFloor = 2;
+        var isBole = false;
+        var isDigg = false;
+        var isExpert=false;
+        var isAdm = false;
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script src="http://c.csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/static/css/avatar.css">
+    <link rel="stylesheet" href="http://csdnimg.cn/release/phoenix/production/main-f7fb2ae533.css">
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+
+    <script src="http://csdnimg.cn/rabbit/exposure-click/main-1.0.5.js"></script>
+    <script type="text/javascript" src="http://csdnimg.cn/pubfooter/js/tracking-1.0.2.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://csdnimg.cn/release/phoenix/production/main-9512850059.js"></script>
+
+    <script src="http://dup.baidustatic.com/js/ds.js"></script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <meta name="description" content="原文：How To Write, Deploy, and Interact with Ethereum Smart Contracts on a Private Blockchain 
+  作者：jack_schultz 
+  翻译：无阻我飞扬
+摘要：本文作者以极长的篇幅给出了在私有区块链上编写、部署以及与以太坊进行交互的智能合约的较为完整的代码、相关细节步骤、用户界面等。作者是希望借助他这篇文章，" />
+    <meta name="keywords" content="区块链,以太坊" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <title>如何在私有区块链上编写、部署以及与以太坊进行交互的智能合约 - CSDN博客</title>
+    <link href="http://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+</head>
+<body>
+<script id="toolbar-tpl-scriptId" prod="download" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="http://blog.csdn.net/"></script>
+<div class="container clearfix">
+  <main>
+    <article>
+        <h1 class="csdn_top">如何在私有区块链上编写、部署以及与以太坊进行交互的智能合约</h1>
+        <div class="article_bar clearfix">
+            <div class="artical_tag">
+                <span class="original">
+                翻译                </span>
+                <span class="time">2017年12月25日 15:08:38</span>
+            </div>
+
+            <ul class="article_tags clearfix csdn-tracking-statistics tracking-click" data-mod="popu_377" >
+                <li class="tit">标签：</li>
+
+<!--          [startarticletags]-->
+                                                            <li><a href="http://so.csdn.net/so/search/s.do?q=区块链&t=blog" target="_blank">区块链</a> <span>/</span></li>
+                                            <li><a href="http://so.csdn.net/so/search/s.do?q=以太坊&t=blog" target="_blank">以太坊</a> <span>/</span></li>
+                                    <!--          [endarticletags]-->
+            </ul>
+            <ul class="right_bar">
+                <li><button class="btn-noborder"><i class="icon iconfont icon-read"></i><span class="txt">1699</span></button></li>
+                <li class="edit">
+                    <a class="btn-noborder" href="" >
+                        <i class="icon iconfont icon-bianji"></i><span class="txt">编辑</span>
+                    </a>
+                </li>
+                <li class="del">
+                    <a class="btn-noborder" onclick="javascript:deleteArticle(fileName);return false;">
+                        <i class="icon iconfont icon-shanchu"></i><span class="txt">删除</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="article_content" class="article_content csdn-tracking-statistics tracking-click" data-mod="popu_519" data-dsm="post">
+                            <div class="markdown_views">
+                        <blockquote>
+  <p>原文：<a href="https://bigishdata.com/2017/12/15/how-to-write-deploy-and-interact-with-ethereum-smart-contracts-on-a-private-blockchain/" target="_blank">How To Write, Deploy, and Interact with Ethereum Smart Contracts on a Private Blockchain</a> <br>
+  作者：<a href="https://github.com/jackschultz" target="_blank">jack_schultz</a> <br>
+  翻译：无阻我飞扬</p>
+</blockquote>
+
+<p><em>摘要：本文作者以极长的篇幅给出了在私有区块链上编写、部署以及与以太坊进行交互的智能合约的较为完整的代码、相关细节步骤、用户界面等。作者是希望借助他这篇文章，大家可以自行在私有以太坊区块链上编写并部署一个智能合约，以下是译文。</em></p>
+
+<p>这里的规则是：如果通读本文，则必须自行在私有以太坊区块链上部署一个智能合约。Github上给出了所有我使用的代码，所以你没有理由不去做。</p>
+
+<p>但是如果不遵守规则，只是想阅读一下而已，希望这有助于提供一个从无到有做出一个区块链应用程序的视角。</p>
+
+<p>最后，你会创建出一个私有以太坊专用区块链，连接两个不同的节点作为peers，编写并编译一个智能合约，有一个允许用户提出问题的Web界面，在区块链上部署问题，然后让用户来回答。</p>
+
+<p>如果感到困惑，遇到错误，或者想说点别的，那就写一篇评论，在<a href="https://twitter.com/jack_schultz" target="_blank">Twitter</a>上取得<a href="https://bigishdata.com/contact/" target="_blank">联系</a>或发表意见。</p>
+
+<p>这里是<a href="https://github.com/jackschultz/privEth/" target="_blank">Github的repo</a>，所以继续并fork它（如果不想复制粘贴所有的代码），如果有想要分享的更新，我会把它放到自述文件中。</p>
+
+
+
+<h1 id="私有区块链创建">私有区块链创建</h1>
+
+<p>要创建一个单独的节点，需要以下<code>genesis.json</code>代码，它代表私有区块链上的初始块。</p>
+
+<pre><code>//genesis.json
+{
+ "alloc": {},
+ "config": {
+   "chainID": 72,
+   "homesteadBlock": 0,
+   "eip155Block": 0,
+   "eip158Block": 0
+ },
+ "nonce": "0x0000000000000000",
+ "difficulty": "0x4000",
+ "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+ "coinbase": "0x0000000000000000000000000000000000000000",
+ "timestamp": "0x00",
+ "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+ "extraData": "0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa",
+ "gasLimit": "0xffffffff"
+}
+</code></pre>
+
+<p>如果希望对字段有一个完整的解释，看看<a href="https://ethereum.stackexchange.com/questions/2376/what-does-each-genesis-json-parameter-mean/2377#2377" target="_blank">这个堆栈溢出的解答</a>。这个案例中的<code>difficulty</code>是很低的，因为不希望在测试网络上等待很长的时间，区块才能被挖掘出来，然后<code>gasLimit</code> 的值高到允许区块中的一个节点可以完成的工作量能够处理每个交易。</p>
+
+<p>去打开一个终端，确保<code>geth</code>（以太坊客户端）<a href="https://geth.ethereum.org/downloads/" target="_blank">以任何适用于你的操作系统的方式进行安装</a>，然后<code>cd</code>（dos命令）到保存genesis.json的文件夹。运行以下命令，将初始化该节点的区块链。</p>
+
+<pre><code>$ geth --datadir "/Users/USERNAME/Library/PrivEth" init genesis.json
+</code></pre>
+
+<p><strong>-datadir</strong>指定区块链所有数据的位置。在Mac操作系统上，默认是 ~/Library/Ethereum目录。由于有多个节点在运行，所以不能让它们共享相同的数据文件夹，因此需要具体指定。Linux和Windows机器具有不同的<a href="https://github.com/ethereum/go-ethereum/wiki/Backup-&amp;-restore#data-directory" target="_blank">默认datadir</a>，所以请查看这些数据一般应该位于何处。</p>
+
+<p>用<code>genesis.json</code>文件运行完初始化命令之后，去检查那个<code>--datadir</code>目录，会看到一堆文件，所以随意四处看看吧。现在没有必要，但是最终还是要去看看。</p>
+
+<p>对于这样一个区块链，需要多个节点。要使区块链成为peers，它们需要拥有相同的创始文件。所以要从同一个目录运行和上面相同的命令，但是这次使用了不同的<code>datadir</code>。</p>
+
+<pre><code>geth --datadir "/Users/USERNAME/Library/PrivEth2" init genesis.json
+</code></pre>
+
+<p>这里所有的代码，将在同一个目录下工作。代码是一样的，但是使用命令行选项，可以通过命令行参数区分这些进程。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220163307040?" alt="这里写图片描述" title=""></p>
+
+<p><em>初始化两个节点的链。</em></p>
+
+<p>当通过一个不同的<code>--datadir</code>运行<code>geth</code>，无论从哪里运行命令，都将运行单独的节点。只要记得每次指定<code>--datadir</code>，那么它就不会回到默认值。另外请注意，我更改了这些<code>datadirs</code>的名称，所以会在屏幕截图中看到不同的名称。</p>
+
+
+
+<h1 id="打开控制台">打开控制台</h1>
+
+<p>到目前为止，已经做了三件事。1）在选择的工作目录中创建了一个<code>genesis.json</code> 文件，2）为一个节点选择一个目录存储区块链，并初始化第一个区块，3）为另外一个节点选择一个不同的目录存储区块链。很少的代码和一些命令。</p>
+
+<p>下一步能够登录到每个节点的geth控制台。控制台将启动geth进程并运行它，也给了在终端上运行一些web3命令的方法。</p>
+
+<pre><code>geth --datadir "/Users/jackschultz/Library/EthPrivLocal" --networkid 72 --port 30301 --nodiscover console
+</code></pre>
+
+<p>这里还有更多的选择。</p>
+
+<p><strong>-networkid</strong>与<code>genesis.json</code>文件中的类似，在这里所需要做的是确保不使用网络ID 1-4。</p>
+
+<p><strong>-port</strong>指定.ipc文件将要用到的端口。这就是使用web3.js库连接数据库的方式，默认端口是30303。所以将它保留在那个区域，但这是第一个节点，所以它的端口是30301。</p>
+
+<p><strong>nodiscover</strong>告诉geth最初不要找peers。这一点在这个案例中确实很重要。这是一个私有网络。不希望节点在没有指定的情况下尝试连接到其它节点，不希望这些节点在没有告诉它们的情况下被发现。</p>
+
+<p>在第一个<code>geth</code>节点运行的情况下，在有第二个<code>—datadir</code>的不同终端运行相同的命令，节点在不同的端口上运行。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220163659182?" alt="这里写图片描述" title=""></p>
+
+<p><em>启动控制台。</em></p>
+
+
+
+<h1 id="为每个节点创建初始coinbase帐户">为每个节点创建初始Coinbase帐户</h1>
+
+<p>当用上面的命令运行控制台时，想要创建主coinbase帐户。如果感到好奇，使用密码短语“passphrase”，将来Node应用程序会用到“passphrase”。</p>
+
+<pre><code>&gt; personal.listAccounts
+[]
+&gt; personal.newAccount（）
+Passphrase：
+Repeat passphrase：
+0x538341f72db4b64e320e6c7c698499ca68a6880c
+&gt; personal.listAccounts
+[“0x538341f72db4b64e320e6c7c698499ca68a6880c”]
+</code></pre>
+
+<p>在另一个节点的控制台中运行相同的命令。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220163907693?" alt="这里写图片描述" title=""></p>
+
+<p><em>创建新的帐户。</em></p>
+
+<p>由于这是该节点创建的第一个帐户，因此会看到它也列在其中</p>
+
+<pre><code>&gt; eth.coinbase
+0x538341f72db4b64e320e6c7c698499ca68a6880c
+</code></pre>
+
+<p>通过运行可以在控制台上抓取的另一条信息</p>
+
+<pre><code>&gt; personal.listWallets
+[{
+accounts：[{
+    address：“0x538341f72db4b64e320e6c7c698499ca68a6880c”，
+    url：“keystore：///Users/jackschultz/Library/EthPrivLocal/keystore/UTC--2017-12-09T16-21-48.056824000Z--538341f72db4b64e320e6c7c698499ca68a6880c”
+}]，
+status：“locked”，
+url：“keystore：///Users/jackschultz/Library/EthPrivLocal/keystore/UTC--2017-12-09T16-21-48.056824000Z--538341f72db4b64e320e6c7c698499ca68a6880c”
+}]
+</code></pre>
+
+<p>在那里会看到更多有关帐户的信息，而不是只有地址。还会看到帐户信息的存储位置，它会在指定的<code>--datadir</code>。所以如果仍然好奇数据是如何存储在文件系统中的，那就去查看一下目录。</p>
+
+
+
+<h1 id="以peers连接节点">以Peers连接节点</h1>
+
+<p>有多个节点正在运行，需要以peers连接它们。首先检查我们是否有peers</p>
+
+<pre><code>&gt; admin.peers
+[]
+</code></pre>
+
+<p>好难过。这是我们期望的，在非1-4网络ID和<code>nodiscover</code>的标志上启动控制台。这意味着需要告知每个节点用特定的命令连接到另一个节点。通过分享<code>enode</code> 地址的方式来做。</p>
+
+<pre><code>&gt; admin.nodeInfo.enode
+“enode：// 13b835d68917bd4970502b53d8125db1e124b466f6473361c558ea481e31ce4197843ec7d8684011b15ce63def5eeb73982d04425af3a0b6f3437a030878c8a9 @ [：]：30301 discport = 0”
+</code></pre>
+
+<p>这是<code>geth</code>用来连接到不同节点的<code>enode</code>信息，在这些不同的节点它们能够分享交易和成功挖掘信息。</p>
+
+<p>要使用这个URL连接节点，需要调用<code>addPeer</code>函数。</p>
+
+<p>如果要复制从其中一个节点<code>admin.nodeInfo.enode</code>的返回值，请在另一个节点中运行以下命令。</p>
+
+<pre><code>&gt; admin.addPeer（“enode：// 13b835d68917bd4970502b53d8125db1e124b466f6473361c558ea481e31ce4197843ec7d8684011b15ce63def5eeb73982d04425af3a0b6f3437a030878c8a9 @ [::]：30301？discport = 0”）
+</code></pre>
+
+<p>这告知一个节点如何到达另一个节点，并请求另一个节点连接起来，它们都将成为彼此的peers。如需检验，请在两个节点上运行admin.peers命令，将看到它们连接在一起。代码如下：</p>
+
+<pre><code>&gt; admin.peers
+[{
+caps: ["eth/63"],
+id: "99bf59fe629dbea3cb3da94be4a6cff625c40da21dfffacddc4f723661aa1aa77cd4fb7921eb437b0d5e9333c01ed57bfc0d433b9f718a2c95287d3542f2e9a8",
+name: "Geth/v1.7.1-stable-05101641/darwin-amd64/go1.9.1",
+network: {
+    localAddress: "[::1]:30301",
+    remoteAddress: "[::1]:50042"
+},
+protocols: {
+    eth: {
+        difficulty: 935232,
+        head: "0x8dd2dc7968328c8bbd5aacc53f87e590a469e5bde3945bee0f6ae13392503d17",
+        version: 63
+    }
+}
+}]
+</code></pre>
+
+<p>要添加peer，只需要告诉一个节点连接到另一个节点，然后检查另一个节点，就会看到如下输出： <br>
+<img src="http://img.blog.csdn.net/20171220164439728?" alt="这里写图片描述" title=""></p>
+
+<p><em>Peers on peers。</em></p>
+
+
+
+<h1 id="检查余额并挖掘">检查余额并挖掘</h1>
+
+<p>既然节点连接起来了，就不是钱的事了。在开始挖掘之前，检查一下主账户的余额。</p>
+
+<pre><code>&gt; eth.getBalance（eth.coinbase）
+0
+&gt;
+</code></pre>
+
+<p>再一次如此悲伤。由于没有把这个帐户分配给创始区块，需要开始为这些账户挖矿。</p>
+
+<p>在控制台中，运行<code>miner.start()</code>为这个节点开始挖掘，然后运行<code>miner.stop()</code>可以停止挖掘。在挖掘时，不仅要看账号得到多少以太币，还要观察两个节点之间点对点的交互。</p>
+
+<p>在下面的图片中，会看到检查了两个节点各自的主帐户余额。然后在节点1上开始挖掘，让它运行大约5秒，然后在7个完整区块之后停止挖掘。检查另一边的余额，有35个以太币，在控制台中这个数字代表Wei。在另一个节点上，将会看到它收到了从节点1挖掘的7个区块的信息。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220164926151?" alt="这里写图片描述" title=""></p>
+
+<p><em>开始挖掘。</em></p>
+
+
+
+<h1 id="交易">交易</h1>
+
+<p>使用智能合约需要专门的交易，但在实现这一点之前，要知道如何创建一个交易，将以太币发送到另一个帐户。</p>
+
+<p>在一个节点上，采用<code>coinbase</code>账户并解锁它。</p>
+
+<pre><code>&gt; coinbaseAddress = eth.coinbase
+&gt; personal.unlockAccount(coinbaseAddress)
+Unlock account 0x554585d7c4e5b5569158c33684657772c0d0b7e1
+Passphrase:
+True
+</code></pre>
+
+<p>现在从另一个节点的coinbase帐户复制地址，并回到未解锁的帐户节点</p>
+
+<pre><code>&gt; hisAddress = "0x846774a81e8e48379c6283a3aa92e9036017172a"
+</code></pre>
+
+<p>在此之后，sendTransaction命令有点简单。</p>
+
+<pre><code>&gt; eth.sendTransaction({from: eth.coinbase, to: hisAddress, value: 100000000})
+INFO [12-09|10:29:36] Submitted transaction fullhash=0x776689315d837b5f0d9220dc7c0e7315ef45907e188684a6609fde8fcd97dd57 recipient=0x846774A81E8E48379C6283a3Aa92E9036017172A
+"0x776689315d837b5f0d9220dc7c0e7315ef45907e188684a6609fde8fcd97dd57"
+</code></pre>
+
+<p>还有一件需要注意的事，而且会很容易混淆的，就是为什么这些数字的值有那么多0。这是因为值是用wei来表示的，所以不必处理可能在不同系统上引起问题的浮点数。这将与<code>gas</code>（一个与计算步骤大致相当的测量法。每笔交易都需要包括一个Gas限制和一个愿意为每个Gas支付的费用;矿工可以选择进行交易和收费）一起发挥作用 ，需要开始指定合同部署和交易。</p>
+
+<p>如果想知道用这个值发送了多少以太币，命令如下：</p>
+
+<pre><code>&gt; web3.fromWei（100000000，'ether'）
+“0.0000000001”
+</code></pre>
+
+<p>要使交易发送，并且看到不同余额的差异，需要在节点中启动矿工，然后在挖掘了一个区块后停止，现在检查余额以查看变化。</p>
+
+<pre><code>&gt; miner.start()
+...............
+&gt; miner.stop()
+&gt; web3.eth.getBalance(eth.coinbase)
+59999999999900000000
+&gt; web3.eth.getBalance(hisAddress)
+100000000
+</code></pre>
+
+<p>接下来看看下面的这张巨幅图片。同样，节点1在左边，节点2在右边。所以首先检查每个节点上各自coinbase账户的余额。在节点1上，复制节点2的地址，发送交易，然后从接收到提交的交易的节点登录，接着开始挖掘。会发现节点8 有txs=1，这意味着它在那个区块挖掘了一笔交易。再多挖几个区块以后，停止挖掘。检查节点1的帐户余额。有12个区块，每个区块奖励5以太币，但后来却付出了100000000wei。</p>
+
+<p>现在，回到节点2，检查其coinbase帐户的余额，余额是0。然后，记得重新启动过节点1的控制台，并没有将两个节点设置为peers。因此，打印节点1的enode，作为一个peer将其添到节点2。在添加peer后，会看到节点2接收到错过的块，包括1个交易。然后再次检查余额，发现它有100000000Wei。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220165444692?" alt="这里写图片描述" title=""></p>
+
+<p><em>这是如何在本地发送以太币。</em></p>
+
+
+
+<h1 id="间歇">间歇</h1>
+
+<p>到这里，差不多完成了一半的工作！在一个拥有本地运行的私有以太坊区块链的终端上工作，拥有账户的两个节点，彼此是peers，并且可以来回发送交易。</p>
+
+<p>这相当不错，所以可以花一点时间冷静下来，有一个更好的理解。但是在此刻，请继续前进。</p>
+
+
+
+<h1 id="在remix上编写一个合约">在Remix上编写一个合约</h1>
+
+<p>继续！随着<code>geth</code>节点的运行，下一步就是签订合约。</p>
+
+<p>当写这样的文章时，需要花很长时间来选择一个简单而有价值的例子。当试图选择一种合约来使用时，情况亦是如此。我决定摆在这里的是人们可以回答是/否或真/假的问题。</p>
+
+<p>下面是Solidity（是以太坊中用于开发智能合约的编程语言，目前开发智能合约用的最多的是Solidity）合约的最终v1代码。在看代码之前，有一些注意事项：</p>
+
+<ul>
+<li>在这个例子中，只使用全局变量来解决问题，是谁问了这个问题，谁回答了这个问题，以及答案的值。Solidity也有可以存储数据的结构，但是本文在讨论部署而不是Solidity，所以不要太深入。</li>
+<li>使用  <code>uint</code>s来存储是/否的答案，而不是<code>bool</code>s。在Solidity中，如果有将地址链接到<code>bool</code>的映射，则默认值为FALSE。对于一个<code>uint</code>，默认值是零。这有了必要的三种状态，在这里可以用一个<code>enum</code>，但正如我所说，尽量保持简单。</li>
+<li>answerQuestion方法在逻辑和if语句中都有些复杂。如果想了解如何调整变量，请仔细阅读它。</li>
+<li><p>有一个get函数，返回所有想要在页面上显示合约状态的信息。可以分开来分别返回不同的信息，但是不妨把它们放在一起，而不必多次查询。 <br>
+-在合约中不仅有其它方式存储这些数据，还有很多其它的方式来编写它！例如，可以列出所有投票为true或false的账户，然后循环查询它们是否已经回答。</p>
+
+<pre><code>pragma solidity ^0.4.0;
+contract Questions {
+
+  //global variables that aren't in a struct
+  mapping(address =&gt; uint) public answers; //integer where 0 means hasn't answered, 1 means yes, 2 means no
+  string question;
+  address asker;
+  uint trues;
+  uint falses;
+
+  /// __init__
+  function Questions(string _question) public {
+    asker = msg.sender;
+question = _question;
+  }
+
+  //We need a way to validate whether or not they've answered before.
+  //The default of a mapping is 
+  function answerQuestion (bool _answer) public {
+    if (answers[msg.sender] == 0 &amp;&amp; _answer) { //haven't answered yet
+      answers[msg.sender] = 1; //they vote true
+      trues += 1;
+}
+    else if (answers[msg.sender] == 0 &amp;&amp; !_answer) {
+      answers[msg.sender] = 2; //falsity
+      falses += 1;
+    }
+    else if (answers[msg.sender] == 2 &amp;&amp; _answer) { // false switching to true
+      answers[msg.sender] = 1; //true
+      trues += 1;
+      falses -= 1;
+        }
+    else if (answers[msg.sender] == 1 &amp;&amp; !_answer) { // true switching to false
+      answers[msg.sender] = 2; //falsity
+      trues -= 1;
+      falses += 1;
+    }
+  }
+
+  function getQuestion() public constant returns (string, uint, uint, uint) {
+    return (question, trues, falses, answers[msg.sender]);
+      }
+}
+</code></pre></li>
+</ul>
+
+<p>把这个合约保存在contracts/Question.sol中，而不是在本地进行编译，使用<a href="https://remix.ethereum.org/" target="_blank">Remix</a>来处理大量的错误和代码警告，以及编译所需的信息。</p>
+
+<p>要查看编译信息，在右上角的“编译”选项卡上单击详细信息按钮，就会看到一堆信息弹出。要寻找的数据是byteCode和ABI。右下方正是要模仿的web3的部署信息！但是，不是从一个单一的行上输入巨大的字符串，而是要从一个json文件中导入信息。必须把数据分开。</p>
+
+<pre><code>//childContractv1.json
+{
+  "abi": [{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"answers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getQuestion","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_answer","type":"bool"}],"name":"answerQuestion","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_question","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}],
+  "byteCode": "0x6060604052341561000f57600080fd5b6040516106d23803806106d28339810160405280805182019190505033600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508060019080519060200190610082929190610089565b505061012e565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100ca57805160ff19168380011785556100f8565b828001600101855582156100f8579182015b828111156100f75782518255916020019190600101906100dc565b5b5090506101059190610109565b5090565b61012b91905b8082111561012757600081600090555060010161010f565b5090565b90565b6105958061013d6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680635e9618e71461005c578063eff38f92146100a9578063f9e049611461014c575b600080fd5b341561006757600080fd5b610093600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610171565b6040518082815260200191505060405180910390f35b34156100b457600080fd5b6100bc610189565b6040518080602001858152602001848152602001838152602001828103825286818151815260200191508051906020019080838360005b8381101561010e5780820151818401526020810190506100f3565b50505050905090810190601f16801561013b5780820380516001836020036101000a031916815260200191505b509550505050505060405180910390f35b341561015757600080fd5b61016f60048080351515906020019091905050610287565b005b60006020528060005260406000206000915090505481565b610191610555565b600080600060016003546004546000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200............................600460008282540392505081905550610550565b60016000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541480156104e3575080155b1561054f5760026000803373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550600160036000828254039250508190555060016004600082825401925050819055505b5b5b5b50565b6020604051908101604052806000815250905600a165627a7a7230582043defebf8fa91b1cd010927004a7ff4816a1040b9cabd4ddd22122a9816742ff0029"
+}
+</code></pre>
+
+<p>继续直接复制这个文件，到Remix上并与Remxi的编译器一起工作。值得一提的是<code>byteCode</code>，需要确保字符串以“0x”开始。当从Remix复制字节码字段时，只能得到数字。</p>
+
+
+
+<h1 id="nodejs时间">NodeJS时间</h1>
+
+<p>上面每次说到节点，意思是<code>geth</code> / blockchain节点。在这里，将再次看到“node”这个词，但是当看到大写字母N时，它的意思是NodeJS。</p>
+
+<p>已经将v1合约编译并存储在一个文件中。现在需要运行一个Node（这个Node首字母大写了，所以它代表NoteJS）实例。将有四个端点：</p>
+
+<ul>
+<li>GET’/’将会有一个表单提出一个新的问题，</li>
+<li>POST’/ questions / new’在区块链上部署新问题合约，</li>
+<li>GET’/ questions？address = 0xXXXX …’将依据当前的答案显示问题以及一个发送或更新答案的表单， <br>
+-POST’/ questions？address = 0xXXXX …’处理应答。</li>
+</ul>
+
+
+
+<h1 id="部署问题">部署问题</h1>
+
+<p>前言，在进入区块链之前，<a href="https://twitter.com/jack_schultz/status/917409196970250240" target="_blank">从来没用使用过Node</a>，所以有一些语法和实践可能会在这里无效。对于代码，会通过与区块链交互的三个端点，首先是部署新问题的post请求。这些代码需要连接到本地运行的<code>geth</code>。</p>
+
+<pre><code>const Web3 = require('web3');
+const net = require('net');
+    const compiledContract = require('./contracts/contractv1');
+
+web3IPC = '/Users/jackschultz/Library/PrivEth/geth.ipc';
+let web3 = new Web3(web3IPC, net);
+
+const byteCode = compiledContract.byteCode;
+const QuestionContract = new web3.eth.Contract(compiledContract.abi);
+
+web3.eth.getCoinbase(function(err, cba) {
+ coinbaseAddress = cba;
+ console.log(coinbaseAddress);
+});
+const coinbasePassphrase = 'passphrase';
+
+app.post('/', (req, res) =&gt; {
+  const question = req.body.question;
+  web3.eth.personal.unlockAccount(coinbaseAddress, coinbasePassphrase, function(err, uares) {
+QuestionContract.deploy({data: byteCode, arguments: 
+}).send({from: coinbaseAddress, gas: 2000000})
+ .on('receipt', function (receipt) {
+     console.log("Contract Address: " + receipt.contractAddress);
+     res.redirect('/questions?address=' + receipt.contractAddress);
+});
+  });
+});
+</code></pre>
+
+<p>当到达端点时，从主体获取请求后的第一步是解锁正在部署的帐户。这是必要的，不模仿别人。一旦得到回调，将部署合约，其中交易的数据是整个的字节码，然后将问题字符串传递给合约中的init函数。指定从<code>coinbase</code>地址发送它，并说明要投入2000000wei（如果想知道它到底有多小，那就是0.000000000002 以太币）。</p>
+
+<p>有<a href="https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#deploy" target="_blank">更多的回调，可以用在这里</a>，但现在唯一感兴趣的是“收据”，合约被挖掘以后，它的地址在哪里。就用户界面而言，这样写的方式是在重定向到问题的页面之前，页面会挂起，等待合约被挖掘。对于广泛使用的DAPP（Decentralized App，去中心化的应用程序）来说，这可能不是一个好主意，因为公共以太坊挖掘区块平均约为14.5秒。但是这里的私有区块链上，把难度设置的如此之低，以至于区块很快被挖掘完，所以这不是问题。</p>
+
+
+
+<h1 id="检视问题">检视问题</h1>
+
+<p>现在既然有一个问题存在，就想继续讨论它！使用<code>web3.utils.isAddress</code>函数来验证地址不仅是一个有效的十六进制字符串，而且还验证校验和是有效的，确保它是一个存在的地址。</p>
+
+<p>然后<code>getQuestion</code> 方法返回一个结果，这是一个返回值的字典。在本文的例子中，这是一个问题，true的数量，false的数量，以及运行节点的人是否回答了这个问题。</p>
+
+<pre><code>app.get('/questions', function(req, res) {
+  const contractAddress = req.query.address;
+  if (web3.utils.isAddress(contractAddress)) {
+QuestionContract.options.address = contractAddress;
+  const info = QuestionContract.methods.getQuestion().call(function(err, gqres) {
+  //using number strings to get the data from the method      
+  const question = gqres['0'];
+  const trues = gqres['1'];
+  const falses = gqres['2'];
+  const currentAnswerInt = parseInt(gqres['3'], 10);
+  data = {contractAddress: contractAddress, question: question, currentAnswerInt: currentAnswerInt, trues: trues, falses: falses};
+  res.render('question', data);
+});
+  }
+          else {
+        res.status(404).send("No question with that address.");
+  }
+});
+</code></pre>
+
+
+
+<h1 id="回答问题">回答问题</h1>
+
+<p>当发布这个问题url时，经过大部分相同的过程验证输入，验证地址，然后用所需参数调用<code>answerQuestion</code>方法。随着问题创建函数的出现，将让浏览器挂起，直到有更新交易的区块被挖掘出来。</p>
+
+<pre><code>app.post('/questions', function(req, res) {
+  const contractAddress = req.query.address;
+  const answerValue = req.body.answer == 'true' ? true : false;
+  if (web3.utils.isAddress(contractAddress)) {
+web3.eth.personal.unlockAccount(coinbaseAddress, coinbasePassphrase, function(err, uares) {
+  QuestionContract.options.address = contractAddress;
+  QuestionContract.methods.answerQuestion(answerValue).send({from: coinbaseAddress, gas: 2000000})
+    .on('receipt', function (receipt) {
+      console.log(`Question with address ${contractAddress} updated.`);
+      res.redirect('/questions?address=' + contractAddress);
+    }
+  );
+});
+  }
+});
+</code></pre>
+
+
+
+<h1 id="html">HTML</h1>
+
+<p>至于HTML，不打算费心把它贴在这里，因为它很简单。我不喜欢使用CSS模板，因为像这样在后台提交并不重要。当谈论到运行代码时，会看到以下基本界面的屏幕截图。</p>
+
+
+
+<h1 id="运行代码">运行代码</h1>
+
+<p>现在所有的代码都在那里。控制台上有四个选项卡打开。两个正在运行geth</p>
+
+<pre><code>geth --datadir /Users/jackschultz/Library/PrivEth --networkid 40 --port 30301 --nodiscover console
+
+geth --datadir /Users/jackschultz/Library/PrivEth2 --networkid 40 --port 30302 --nodiscover console
+</code></pre>
+
+<p>另外两个正在运行Node应用程序，连接到单独的<code>geth</code>过程，并运行在不同的本地主机端口上。添加了<a href="https://github.com/lorenwest/node-config" target="_blank">配置文件</a>，将它们命名为主文件和辅助文件，指向ipc和该节点应当运行的端口。</p>
+
+<pre><code>NODE_ENV=primary node app.js
+
+NODE_ENV=secondary node app.js
+</code></pre>
+
+<p>在这里放一些图片，让阅读的人可以更多地了解我在屏幕上看到的内容。在此基础上，打开浏览器并开始交互。首先是进入主页，可以问一个问题。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220170945531?" alt="这里写图片描述" title=""></p>
+
+<p><em>他们会吗？？</em></p>
+
+<p>然后当点击提交按钮时，会看到Node应用程序的日志记录，在geth控制台中，将启动矿工，然后在这个交易完成后停止它。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220171015828?" alt="这里写图片描述" title=""></p>
+
+<p><em>是时候回答问题了。</em></p>
+
+<p>回答的话，要提交表单，然后开始和停止挖矿。当自己做这件事的时候，一件有趣的事情就是在提交答案之前先启动矿工，这样就可以了解在创始块中定义的这个小难度级别的挖掘速度。</p>
+
+<p>检查下面的终端。在顶级Node终端中，将看到有关验证地址的一些日志记录，然后当重定向到同一页面但具有更新信息时记录。在<code>geth</code>控制台中，可以看到交易何时提交，以及这笔交易是在哪个区块进行的。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220171100688?" alt="这里写图片描述" title=""></p>
+
+<p><em>显然他们会。</em></p>
+
+<p>现在从主节点回答了这个问题，接着看看第二个节点。</p>
+
+<p>在图片的右侧，会看到前两个终端显示Node和<code>geth</code>交互，然后底部是主要的<code>geth</code>，可以看到它接收到一个交易的区块，因为这两个<code>geth</code>节点是peers。在端口4002上的节点回答问题后，重新加载了端口4001上的页面，可以看到下图的结果。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220171131915?" alt="这里写图片描述" title=""></p>
+
+<p><em>当然会的。</em></p>
+
+<p>为了证明可以切换回false，把端口4002的答案改成了false（这是错误的，因为雄鹿队肯定会打入季后赛），然后可以看到控制台记录了所经历的信息。</p>
+
+<p><img src="http://img.blog.csdn.net/20171220171158002?" alt="这里写图片描述" title=""></p>
+
+<p><em>截图后，改回答案为true。</em></p>
+
+
+
+<h1 id="结论">结论</h1>
+
+<p>如果已经看到了这里，并且让自己的代码运行起来了，恭喜。 像大多数帖子一样，这比我最初想象的要长得多。这样做的目的是完成并解释智能合约的所有步骤，而不是只给出中间的某个地方。</p>
+
+<p>如上所述，如果有任何反馈，在<a href="https://twitter.com/jack_schultz" target="_blank">Twitter</a>上取得<a href="https://bigishdata.com/contact/" target="_blank">联系</a>或发表意见。</p>
+
+<blockquote>
+  <p>SDCC 2017之数据库线上峰会即将强势来袭，秉承干货实料（案例）的内容原则，邀请了来自阿里巴巴、腾讯、微博、网易等多家企业的数据库专家及高校研究学者，围绕Oracle、MySQL、PostgreSQL、Redis等热点数据库技术展开，从核心技术的深挖到高可用实践的剖析，打造精华压缩式分享，举一反三，思辨互搏，报名及更多详情可<a href="http://edu.csdn.net/http://edu.csdn.net/huiyiCourse/series_detail/74?utm_source=home2" target="_blank">点击此处查看</a>。 <br>
+  <img src="http://img.blog.csdn.net/20171226172348051?" alt="这里写图片描述" title=""></p>
+</blockquote>                            </div>
+                <link rel="stylesheet" href="http://csdnimg.cn/release/phoenix/production/markdown_views-d4dade9c33.css" />
+                    </div>
+    </article>
+      <div class="readall_box csdn-tracking-statistics tracking-click" data-mod="popu_376">
+          <div class="read_more_mask"></div>
+          <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+      </div>
+      <div class="article_copyright">
+              </div>
+      <ul class="article_collect clearfix csdn-tracking-statistics tracking-click"  data-mod="popu_378">
+          <li class="tit">本文已收录于以下专栏：</li>
+<!--          [startarticlecolumns]-->
+                                <!--          [endarticlecolumns]-->
+      </ul>
+      <div class="comment_box clearfix">
+          <div id="comment_form">
+              <div id="commentsbmitarear">
+                              </div>
+          </div>
+      </div>
+      <div class="comment_li_outbox">
+          <div id="comment_list"></div>
+      </div>
+
+      <div class="more_comment">
+          <div id="comment_bar" class="trackgin-ad" data-mod="popu_385"></div>
+      </div>
+
+      <h3 class="recommend_tit" id="related">相关文章推荐</h3>
+      <div class="recommend_list clearfix" id="rasss">
+                                                                                      <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/loy_184548/article/details/78002015"  target="_blank" strategy="BlogCommendFromCsdn_0">【区块链】以太坊私有链下智能合约部署</a></h2>
+                          <div class="summary">
+                              以太坊私有链下智能合约部署上一篇文章实现了搭建私有链，以下进行智能合约的部署一、 编写合约简单的乘法例子：pragma solidity ^0.4.2;
+contract test {   funct...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/loy_184548" target="_blank" strategy="BlogCommendFromCsdn_0"><img src="http://avatar.csdn.net/0/9/6/3_loy_184548.jpg" alt="loy_184548" title="loy_184548"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/loy_184548">loy_184548</a></li>
+                              <li class="time">2017年09月16日 10:59</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>330</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/super_wu1992/article/details/76919308"  target="_blank" strategy="BlogCommendFromCsdn_1">以太坊私有链创建及智能合约的部署和交互</a></h2>
+                          <div class="summary">
+                              部署本机私有链
+区块链说白了就是一个个块链接起来的一个链表结果，所以要在本机生成一个自己的私有链首先要做的就是自己先创建一个块作为第一个将要生成的区块链的第一个区块（区块链叫做创世块），所以先生成一个...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/super_wu1992" target="_blank" strategy="BlogCommendFromCsdn_1"><img src="http://avatar.csdn.net/6/1/2/3_super_wu1992.jpg" alt="super_wu1992" title="super_wu1992"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/super_wu1992">super_wu1992</a></li>
+                              <li class="time">2017年08月08日 17:06</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>1445</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                      <script>
+                      (function() {
+                          var s = "_" + Math.random().toString(36).slice(2);
+                          document.write('<div id="' + s + '"></div>');
+                          (window.slotbydup=window.slotbydup || []).push({
+                              id: '4765209',
+                              container: s,
+                              size: '808,120',
+                              display: 'inlay-fix'
+                          });
+                      })();
+                  </script>
+                                                                <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/ziyuzhiye/article/details/54096207"  target="_blank" strategy="BlogCommendFromCsdn_2">区块链开发（二）部署和运行第一个以太坊智能合约</a></h2>
+                          <div class="summary">
+                              区块链开发（二）部署并运行第一个以太坊智能合约
+李赫2016年8月22日
+本文首发8BTC
+        网络上不少部署智能合约的文章，但是都有一个共同的特点，就是采用命令行的方式来部署，先是...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/ziyuzhiye" target="_blank" strategy="BlogCommendFromCsdn_2"><img src="http://avatar.csdn.net/1/7/2/3_ziyuzhiye.jpg" alt="ziyuzhiye" title="ziyuzhiye"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/ziyuzhiye">ziyuzhiye</a></li>
+                              <li class="time">2017年01月05日 18:24</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>1095</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/sportshark/article/details/52249607"  target="_blank" strategy="BlogCommendFromCsdn_3">区块链开发（二）部署和运行第一个以太坊智能合约</a></h2>
+                          <div class="summary">
+                              区块链开发（二）部署并运行第一个以太坊智能合约
+李赫2016年8月10日
+        网络上不少部署智能合约的文章，但是都有一个共同的特点，就是采用命令行的方式来部署，先是建立SOLC的编译环境，...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/sportshark" target="_blank" strategy="BlogCommendFromCsdn_3"><img src="http://avatar.csdn.net/6/2/5/3_sportshark.jpg" alt="sportshark" title="sportshark"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/sportshark">sportshark</a></li>
+                              <li class="time">2016年08月22日 08:50</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>15167</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/AAA123524457/article/details/52836659"  target="_blank" strategy="BlogCommendFromCsdn_4">区块链开发（二）部署和运行第一个以太坊智能合约</a></h2>
+                          <div class="summary">
+                              区块链开发（二）部署并运行第一个以太坊智能合约
+
+李赫2016年8月22日
+
+本文首发8BTC
+
+        网络上不少部署智能合约的文章，但是都有一个共同的特点，就是采用命令行的方式...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/AAA123524457" target="_blank" strategy="BlogCommendFromCsdn_4"><img src="http://avatar.csdn.net/0/7/8/3_aaa123524457.jpg" alt="AAA123524457" title="AAA123524457"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/AAA123524457">AAA123524457</a></li>
+                              <li class="time">2016年10月17日 10:31</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>1292</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                        <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 -->
+                  <script>
+                      (function() {
+                          var s = "_" + Math.random().toString(36).slice(2);
+                          document.write('<div id="' + s + '"></div>');
+                          (window.slotbydup=window.slotbydup || []).push({
+                              id: '4983339',
+                              container: s,
+                              size: '808,120',
+                              display: 'inlay-fix'
+                          });
+                      })();
+                  </script>
+                                                                              <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/u012576116/article/details/60346540"  target="_blank" strategy="BlogCommendFromCsdn_5">以太坊私有链搭建及智能合约部署与调用</a></h2>
+                          <div class="summary">
+                              引言： 
+最近研究区块链，搭建以太坊的私有链环境，各种求爷爷告奶奶，各种搜资料，可算是成功完成了，在这里分享下自己的搭建过程和智能合约的部署过程，希望能帮助到需要的人，另外有任何问题请与我联系，QQ：...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/u012576116" target="_blank" strategy="BlogCommendFromCsdn_5"><img src="http://avatar.csdn.net/D/D/F/3_u012576116.jpg" alt="u012576116" title="u012576116"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/u012576116">u012576116</a></li>
+                              <li class="time">2017年03月04日 20:57</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>2921</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/Blossomps/article/details/59542586"  target="_blank" strategy="BlogCommendFromCsdn_6">以太坊私有链环境下智能合约部署流程</a></h2>
+                          <div class="summary">
+                              以太坊智能合约部署                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/Blossomps" target="_blank" strategy="BlogCommendFromCsdn_6"><img src="http://avatar.csdn.net/A/2/5/3_blossomps.jpg" alt="Blossomps" title="Blossomps"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/Blossomps">Blossomps</a></li>
+                              <li class="time">2017年03月02日 16:42</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>1584</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/Jeffrey__Zhou/article/details/63695639"  target="_blank" strategy="BlogCommendFromCsdn_7">搭建以太坊私有链和部署智能合约开发环境</a></h2>
+                          <div class="summary">
+                              前言搭建以太坊私有链和学习智能合约去年九月份做过一次，但是因为其他事情暂时搁下了，最近准备开始学习以太坊智能合约开发，以后会在论坛上发表一系列的相关博客，这次搭建解决了上次没完全解决的几个坑，相信很多...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/Jeffrey__Zhou" target="_blank" strategy="BlogCommendFromCsdn_7"><img src="http://avatar.csdn.net/C/3/D/3_jeffrey__zhou.jpg" alt="Jeffrey__Zhou" title="Jeffrey__Zhou"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/Jeffrey__Zhou">Jeffrey__Zhou</a></li>
+                              <li class="time">2017年03月19日 21:07</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>623</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/ziyuzhiye/article/details/54096212"  target="_blank" strategy="BlogCommendFromCsdn_8">区块链开发（三）编写调试第一个以太坊智能合约</a></h2>
+                          <div class="summary">
+                              一、       智能合约IDE简介
+    目前以太坊上支持三种语言编写智能合约，
+    Solidity：类似JavaScript，这是以太坊官方推荐语言，也是最流行的智能合约语言。具体用法...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/ziyuzhiye" target="_blank" strategy="BlogCommendFromCsdn_8"><img src="http://avatar.csdn.net/1/7/2/3_ziyuzhiye.jpg" alt="ziyuzhiye" title="ziyuzhiye"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/ziyuzhiye">ziyuzhiye</a></li>
+                              <li class="time">2017年01月05日 18:25</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>873</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/fidelhl/article/details/52524434"  target="_blank" strategy="BlogCommendFromCsdn_9">区块链开发（三）编写调试第一个以太坊智能合约</a></h2>
+                          <div class="summary">
+                              一、        智能合约IDE简介
+    目前以太坊上支持三种语言编写智能合约，
+    Solidity：类似JavaScript，这是以太坊官方推荐语言，也是最流行的智能合约语言。具体用...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/fidelhl" target="_blank" strategy="BlogCommendFromCsdn_9"><img src="http://avatar.csdn.net/0/F/0/3_fidelhl.jpg" alt="fidelhl" title="fidelhl"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/fidelhl">fidelhl</a></li>
+                              <li class="time">2016年09月13日 11:31</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>4600</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                    </div>
+  </main>
+<aside>
+  <div class="right_box user_info">
+      <dl class="inf_bar clearfix">
+          <dt class="csdn-tracking-statistics tracking-click" data-mod="popu_381">
+              <a href="http://blog.csdn.net/dev_csdn" target="_blank">
+                  <img src="http://avatar.csdn.net/3/3/A/3_dev_csdn.jpg" class="avatar_pic">
+              </a>
+              <span class="medals" title="">
+                        <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-bokezhuanjia"></use>
+              </svg>
+                  </span>
+          </dt>
+          <dd>
+              <h3 class="csdn-tracking-statistics tracking-click"  data-mod="popu_380"><a href="http://blog.csdn.net/dev_csdn" target="_blank" id="uid">dev_csdn</a></h3>
+              <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379"><a class="btn btn-redborder-small "  id="span_add_follow" target="_self">＋关注</a></span>
+          </dd>
+      </dl>
+      <div class="inf_number_box clearfix">
+          <dl>
+              <dt>原创</dt>
+              <dd>20</dd>
+          </dl>
+          <dl>
+              <dt>粉丝</dt>
+              <dd id='fan'>361</dd>
+          </dl>
+          <dl>
+              <dt>喜欢</dt>
+              <dd>270</dd>
+          </dl>
+          <dl>
+        <dt>码云</dt>
+        <dd>&nbsp;</dd>
+      </dl>
+
+      </div>
+  <div class="writings">
+        <div class="public_signal clearfix">
+          <h3>他的最新文章</h3>
+          <a href="http://blog.csdn.net/dev_csdn" target="_blank" class="more"><span>更多文章</span></a>
+        </div>
+          <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/dev_csdn/article/details/78889043" target="_blank">病历智能处理引擎的设计、实现和应用</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/dev_csdn/article/details/78883351" target="_blank">2017深度学习优秀论文盘点 | 资源</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/dev_csdn/article/details/78883350" target="_blank">价格逼近2万美元大关，比特币到底是不是庞氏骗局？</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/dev_csdn/article/details/78876007" target="_blank">开发者不可错过的开源项目 —— 人工智能篇</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/dev_csdn/article/details/78876006" target="_blank">编码过程中需尽量避免的 7 条捷径</a>
+              </li>
+                        </ul>
+      </div>
+  </div>
+    <div class="user-hotArticle">
+        <h3><a href="#related" >相关推荐</a></h3>
+        <ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_563">
+<!--           [StartRelatedArticles]-->
+                                                <li>
+                        <a href="http://blog.csdn.net/loy_184548/article/details/78002015" target="_blank" strategy="BlogRightReleated_0">【区块链】以太坊私有链下智能合约部署</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/super_wu1992/article/details/76919308" target="_blank" strategy="BlogRightReleated_1">以太坊私有链创建及智能合约的部署和交互</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/ziyuzhiye/article/details/54096207" target="_blank" strategy="BlogRightReleated_2">区块链开发（二）部署和运行第一个以太坊智能合约</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/sportshark/article/details/52249607" target="_blank" strategy="BlogRightReleated_3">区块链开发（二）部署和运行第一个以太坊智能合约</a>
+                                            </li>
+                            <!--            [EndRelatedArticles]-->
+        </ul>
+    </div>
+  <div class="extension_other csdn-tracking-statistics tracking-click" data-mod="popu_389">
+     <!--u3032528-->
+    <div class="flashrecommend">
+        <script type="text/javascript" src="http://mpb1.iteye.com/bwocoltlyzdec.js"></script>
+    </div>
+  </div>
+
+<!--    [StartShowSelfColumn]-->
+    <!--    [EndShowSelfColumn]-->
+    <div class="fixRight">
+        <!-- 广告位：PC端-博客详情右侧视窗2（feed流）-300*300 -->
+        <script>
+            (function() {
+                var s = "_" + Math.random().toString(36).slice(2);
+                document.write('<div id="' + s + '"></div>');
+                (window.slotbydup=window.slotbydup || []).push({
+                    id: '5384130',
+                    container: s,
+                    size: '300,300',
+                    display: 'inlay-fix'
+                });
+            })();
+        </script>
+        <div class="extension_other csdn-tracking-statistics tracking-click bottomRcom" data-mod="popu_389" style="position:absolute;z-index:-5;opacity:0;pointer-events:none">
+            <!--u3032528-->
+            <div class="flashrecommend">
+                <!-- 请置于所有广告位代码之前 -->
+                <script src="http://dup.baidustatic.com/js/dm.js"></script>
+
+                <!-- 广告位：PC端-博客详情页右侧视窗1（feed流）-300*250 -->
+                <script>
+                    (function() {
+                        var s = "_" + Math.random().toString(36).slice(2);
+                        document.write('<div id="' + s + '"></div>');
+                        (window.slotbydup=window.slotbydup || []).push({
+                            id: '4770930',
+                            container: s,
+                            size: '300,250',
+                            display: 'inlay-fix'
+                        });
+                    })();
+                </script>
+            </div>
+        </div>
+
+    </div>
+    <div class="user-hotArticle">
+        <h3>他的热门文章</h3>
+        <ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+<!--            [StartHotArticles]-->
+                                                <li>
+                        <a href="http://blog.csdn.net/dev_csdn/article/details/78294846">每个开发人员都应该知道的10个Linux命令</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>17343</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/dev_csdn/article/details/78473400">拥抱大前端  盘点那些值得你了解的最佳开发实践</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>17067</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/dev_csdn/article/details/78491351">Java8中流的性能</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>14041</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/dev_csdn/article/details/78615586">2017年薪酬最高的15门编程语言 GO夺冠</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>13802</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/dev_csdn/article/details/78731563">程序员这个职业会是另一个即将破裂的泡沫？</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>13590</span></div>
+                    </li>
+                            <!--            [EndHotArticles]-->
+        </ul>
+    </div>
+<!--    [startcustom]-->
+    <!--    [endcustom]-->
+</aside></div>
+
+<div class="left_fixed">
+    <div class="left_show_button">
+        <span>
+          <i class="icon iconfont icon-youjiantou"></i>
+        </span>
+    </div>
+    <ul class="left_menu">
+        <li>
+            <button class="left-fixed-btn btn-like csdn-tracking-statistics tracking-click" data-mod="popu_373" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_red"><i class="icon iconfont icon-dianzan"></i></a>
+                <a class="txt" href="javascript:void(0);">1</a>
+            </button>
+        </li>
+        <li id="blog_artical_directory">
+            <button class="left-fixed-btn left_menu_btn csdn-tracking-statistics tracking-click" data-mod="popu_372" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_black"><i class="icon iconfont icon-mulu"></i></a>
+            </button>
+        </li>
+        <li class="menu_con">
+            <div class="list_father">
+                <div class="arr_box">
+                    <button class="btn-noborder arr-btn scroll-down  left_scroll_down"><i class="icon iconfont icon-xiajiantou"></i></button>
+                    <button class="btn-noborder arr-btn scroll-up left_scroll_top"><i class="icon iconfont icon-shangjiantou"></i></button>
+                </div>
+                <div class="arr"></div>
+                <div id="csdnBlogDir"></div>
+            </div>
+        </li>
+        <!--        <li>-->
+        <!--            <button class="left-fixed-btn btn-like tracking-ad" data-mod="popu_373" target="_self">-->
+        <!--                <span class="iconbox border_red"><i class="icon iconfont icon-xihuan-"></i></span>-->
+        <!--                <span class="txt">喜欢</span>-->
+        <!--                <span class="untxt">取消喜欢</span>-->
+        <!--            </button>-->
+        <!--        </li>-->
+        <li>
+            <button class="left-fixed-btn csdn-tracking-statistics tracking-click" data-mod="popu_374"  id="com-quick-collect" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_purple"><i class="icon iconfont icon-shoucang"></i></a>
+            </button>
+        </li>
+        <li>
+            <button class="left-fixed-btn btn-pinglun csdn-tracking-statistics tracking-click" data-mod="popu_544" >
+                <a href="javascript:void(0);" class="iconbox border_purple"><i class="icon iconfont icon-pinglun"></i></a>
+            </button>
+        </li>
+        <li id="share_box">
+            <button class="left-fixed-btn  csdn-tracking-statistics tracking-click"  data-mod="popu_375" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_orange"><i class="icon iconfont icon-fenxiang"></i></a>
+            </button>
+            <div class="bdsharebuttonbox csdn-tracking-statistics tracking-click" data-mod="popu_172">
+                <div class="outside">
+                    <span class="iconbox border_red2"><i class="icon iconfont icon-xinlang"></i></span>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> </a>
+                </div>
+                <div class="outside">
+                    <span class="iconbox border_green"><i class="icon iconfont icon-weixin"></i></span>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> </a>
+                </div>
+                <div class="outside">
+                    <span class="iconbox border_blue"><i class="icon iconfont icon-QQ"></i></span>
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="right_fixed">
+    <div class="r_ico">
+        <i class="icon iconfont icon-jubao"></i>
+        <span class="txt" id="reportBtn">内容举报</span>
+    </div>
+    <div class="returnTop">
+        <i class="icon iconfont icon-fanhuidingbu"></i>
+        <span>返回顶部</span>
+    </div>
+</div>
+<div id="pop_win"></div>
+<div id="popup_mask"></div>
+<div class="pop_CA_cover" ></div>
+<div class="pop pop_CA" >
+    <div class="CA_header">
+        收藏助手
+        <span class="cancel_icon"  id="fapancle" ></span>
+    </div>
+    <iframe src="" id="collectIframe" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+</div>
+<!--举报-->
+<div id="report_dialog" style="top: 250px; left: 343.5px;"><div id="panel_report">
+    <div class="panel_head">不良信息举报</div>
+    <form method="post" id="frmReport" class="panel_body">
+        <table border="0" cellpadding="0" cellspacing="4" class="pop_table">
+            <tbody><tr><td colspan="2">您举报文章：<a href="http://blog.csdn.net/dev_csdn/article/details/78893014" target="_blank">如何在私有区块链上编写、部署以及与以太坊进行交互的智能合约</a></td></tr>
+            <tr>
+                <th style="width:60px;">举报原因：</th>
+                <td id="panel_reporttype">
+                    <label><input type="radio" class="report_type" id="report_sex" name="report_type" value="1">色情</label>
+                    <label><input type="radio" class="report_type" id="report_Politics" name="report_type" value="2">政治</label>
+                    <label><input type="radio" class="report_type" id="report_copy" name="report_type" value="3">抄袭</label>
+                    <label><input type="radio" class="report_type" id="report_ad" name="report_type" value="4">广告</label>
+                    <label><input type="radio" class="report_type" id="report_want" name="report_type" value="5">招聘</label>
+                    <label><input type="radio" class="report_type" id="report_call" name="report_type" value="6">骂人</label>
+                    <br>
+                    <label><input type="radio" class="report_type" id="report_other" name="report_type" value="7">其他</label>
+                    <input type="text" name="report_other_content" id="report_other_content" maxlength="30" style="display: none;">
+                </td>
+            </tr>
+            <tr id="panel_originalurl" style="display: none;">
+                <th>原文地址：</th>
+                <td>
+                    <input id="originalurl" value="http://" name="originalurl" type="text" style="width: 90%;">
+                </td>
+            </tr>
+            <tr>
+                <th id="sp_reason">原因补充：</th>
+                <td>
+                    <textarea id="report_description" style="width: 300px;" rows="3" name="report_description"></textarea>
+                    <p id="sp_n" style="color:#999;margin:0px;padding:0px;">(最多只允许输入30个字)</p>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input id="btnSubmitReport" name="submit" type="image" align="middle" class="btn_1" src="http://csdnimg.cn/release/phoenix/images/btn_submit.jpg">
+                    <span style="padding-left:20px;"></span>
+                    <img id="btnCloseReportDialog" src="http://csdnimg.cn/release/phoenix/images/btn_cancel.jpg" align="middle">
+                    <div id="error" style="color: Red">
+                    </div>
+                </td>
+            </tr>
+            </tbody></table>
+    </form>
+</div>
+    <script language="javascript" type="text/javascript">
+        var isComment=0;
+        //显示隐藏地址
+        $(function () {
+          console.log("version:phoenix");
+            if(isComment){
+                $("#report_description").attr("disabled",true);
+                $("#sp_n").hide();
+                $("#sp_reason").html("评论内容：");
+            }
+            $(".report_type").click(function () {
+                $("#panel_originalurl,#report_other_content").hide();
+                switch ($(this).val()) {
+                    case '3':
+                        $("#panel_originalurl").show();
+                        $("#originalurl").focus();
+                        break;
+                    case '7':
+                        if(isComment){
+                            $("#report_other_content").show().focus();
+                        }
+                        break;
+                }
+
+            });
+
+            $("#frmReport").submit(function () {
+                if (!currentUserName) {
+
+                    if (confirm("您的操作必须登录，是否登录？")) {
+                        location.href = "http://passport.csdn.net/account/login?from=" + encodeURIComponent(location.href);
+                        return false;
+                    }
+                    return false;
+                }
+
+                var reportType = $("input[name=report_type]:checked").val();
+                if(!reportType){
+                    alert("请选择举报原因！");
+                    return false;
+                }
+                var otherInfo = "";
+                switch (reportType) {
+                    case '3':
+                        otherInfo = $("#originalurl").val();
+                        if (otherInfo == ""||otherInfo=="http://") {
+                            alert("举报抄袭必须提供原创文章地址！");
+                            $("#originalurl").focus();
+                            return false;
+                        } else if(!checkeURL(otherInfo)) {
+                            alert("请输入正确的原创文章地址！");
+                            $("#originalurl").focus();
+                            return false;
+                        }
+                        break;
+                    case '7':
+                        otherInfo = $("#report_other_content").val();
+                        if (isComment && !otherInfo) {
+                            alert("请填写举报的具体原因！");
+                            $("#report_other_content").focus();
+                            return false;
+                        }
+                        if(!isComment){
+                            if(!$("#report_description").val()){
+                                alert("请填写举报的具体原因！");
+                                $("#report_description").focus();
+                                return false;
+                            }
+                        }
+                        break;
+                }
+                if(!isComment){
+                    if($("#report_description").val().length>30){
+                        alert("举报原因最多只允许输入30个字！");
+                        return false;
+                    }
+                }
+	            nowTime = {
+		            year: new Date().getFullYear(),
+		            month: parseInt(new Date().getMonth())+1,
+		            day: new Date().getDate(),
+		            hours: parseInt(new Date().getHours())+1,
+		            minutes: parseInt(new Date().getMinutes())+1,
+		            seconds: parseInt(new Date().getSeconds())+1
+	            };
+	            var data = {
+		            articleId: fileName,
+		            commentId: 0,
+		            reportType: reportType,
+		            originalurl: $("#originalurl").val(),
+		            report_other_content: $("#report_other_content").val(),
+		            report_description: $("#report_description").val(),
+		            currentUserName: currentUserName,
+		            updatetime: nowTime.year+'/'+nowTime.month+'/'+nowTime.day+' '+ nowTime.hours+':'+nowTime.minutes+':'+seconds,
+		            blogUser: username
+	            };
+	            if(!isComment){//如果是举报文章
+		            data.report_other_content = data.report_description;
+		            // data.report_description = "1. 神经网络这是一个常见的神经网络的图：这是一个常见的三层神经网络的基本构成，Layer L1是输入层，Layer L2是隐含层";
+	            }
+
+	            $.post(blog_address + "/common/report?id="+fileName+"&t=2", data, function (data) {
+		            if (data.result == 1){
+			            SetError("感谢您的举报，我们会尽快审核！");
+		            }else{
+			            if (data.content) alert(data.content);
+		            }
+
+	            });
+                return false;
+            });
+
+            $("#btnCloseReportDialog").click(function () {
+                CloseDiv();
+            });
+
+        });
+
+        //提示后关闭方法
+        function SetError(error) {
+            $("#btnCloseReportDialog").trigger("click");
+            alert(error);
+            CloseDiv();
+        }
+
+        //关闭方法
+        function CloseDiv() {
+
+            $.removeMask();
+            $("#report_dialog").hide();
+            return false;
+        }
+
+        //验证url
+        function checkeURL(url){
+            return /^http(s)?:\/\/([\w-]+\.)+[\w-]+/i.test(url);
+        }
+    </script>
+</div>
+<!--  fixme 后期清理掉  -->
+<div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+    <script id="adJs52b5334"></script>
+    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+</div>
+<script src="http://c.csdnimg.cn/public/common/libs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://csdnimg.cn/release/phoenix/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+<!-- <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script> -->
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<script type="text/javascript" >
+    if($(".article_collect li").length==1){$(".article_collect").hide();}
+    if($(".article_tags li").length==1){$(".article_tags").hide();}
+    $(".edit a").attr("href","http://write.blog.csdn.net/postedit/"+fileName);
+    $.each($(".edu_li a"),function(){$(this).attr("href",$(this).attr("href").replace("blog7","blog9"))});
+    new CNick('#uid').showNickname();
+
+    if($("#fan").html()=="")
+    {
+	    $("#fan").html(0);
+    }
+</script>
+<script src="http://c.csdnimg.cn/public/common/append_mark/appendMark.min.js?v=5.00.43" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+<div class=""id="loginWrap"></div>
+<div class="" id="dlMask"></div>
+</body>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="canonical" href="http://blog.csdn.net/FYGu18/article/details/78862350"/> 
+    <script type="text/javascript">
+        var username = "fygu18";
+        var _blogger = username;
+        var blog_address = "http://blog.csdn.net/fygu18";
+        var static_host = "http://csdnimg.cn/release/phoenix/";
+        var currentUserName = ""; 
+        var fileName = '78862350';
+        var commentscount = 0;
+        var islock = false
+        window.quickReplyflag = true;
+        var totalFloor = 0;
+        var isBole = false;
+        var isDigg = false;
+        var isExpert=false;
+        var isAdm = false;
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script src="http://c.csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/static/css/avatar.css">
+    <link rel="stylesheet" href="http://csdnimg.cn/release/phoenix/production/main-f7fb2ae533.css">
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+
+    <script src="http://csdnimg.cn/rabbit/exposure-click/main-1.0.5.js"></script>
+    <script type="text/javascript" src="http://csdnimg.cn/pubfooter/js/tracking-1.0.2.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://csdnimg.cn/release/phoenix/production/main-9512850059.js"></script>
+
+    <script src="http://dup.baidustatic.com/js/ds.js"></script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <meta name="description" content="惭愧，从一次电面说起。我个人在某国企做一名软件设计师，国企大家都懂的，待遇一般而且没啥意思，做的方向基本都是操作系统、驱动和工具软件的开发，语言基本都是C/C++。最近也想跳槽，刚好有幸得到了一次阿里的面试机会，于是就试了试。　　首先是电话面试，当时正在上班，人多口杂，好不容易找了个没人的地方开始面试。面试的方向是Java Web，面试官很nice，跟朋友一样，一开始问了些比较基础的东西，比如ha" />
+    <meta name="keywords" content="" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <title>Java Web架构知识整理——记一次阿里面试经历 - CSDN博客</title>
+    <link href="http://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+</head>
+<body>
+<script id="toolbar-tpl-scriptId" prod="download" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="http://blog.csdn.net/"></script>
+<div class="container clearfix">
+  <main>
+    <article>
+        <h1 class="csdn_top">Java Web架构知识整理——记一次阿里面试经历</h1>
+        <div class="article_bar clearfix">
+            <div class="artical_tag">
+                <span class="original">
+                转载                </span>
+                <span class="time">2017年12月20日 00:00:00</span>
+            </div>
+
+            <ul class="article_tags clearfix csdn-tracking-statistics tracking-click" data-mod="popu_377" >
+                <li class="tit">标签：</li>
+
+<!--          [startarticletags]-->
+                <!--          [endarticletags]-->
+            </ul>
+            <ul class="right_bar">
+                <li><button class="btn-noborder"><i class="icon iconfont icon-read"></i><span class="txt">226</span></button></li>
+                <li class="edit">
+                    <a class="btn-noborder" href="" >
+                        <i class="icon iconfont icon-bianji"></i><span class="txt">编辑</span>
+                    </a>
+                </li>
+                <li class="del">
+                    <a class="btn-noborder" onclick="javascript:deleteArticle(fileName);return false;">
+                        <i class="icon iconfont icon-shanchu"></i><span class="txt">删除</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="article_content" class="article_content csdn-tracking-statistics tracking-click" data-mod="popu_519" data-dsm="post">
+                        
+    <div class="rich_media_content" id="js_content">
+                    
+
+                    
+
+                    
+                    
+                    <p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　惭愧，从一次电面说起。我个人在某国企做一名软件设计师，国企大家都懂的，待遇一般而且没啥意思，做的方向基本都是操作系统、驱动和工具软件的开发，语言基本都是C/C++。最近也想跳槽，刚好有幸得到了一次阿里的面试机会，于是就试了试。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　首先是电话面试，当时正在上班，人多口杂，好不容易找了个没人的地方开始面试。面试的方向是Java Web，面试官很nice，跟朋友一样，一开始问了些比较基础的东西，比如hashmap/hashtable的区别和优缺点，我答得还行，而且对于原理的东西还算讲的比较透彻。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Java Web的面试自然就会问到servlet，对于java多线程的东西还是那样，原理性的东西和底层的机制都比较清楚，面试官也还算满意，但往上层就不是我擅长的了。当被问到AOP时，竟然语塞、哑口无言，因为根本忘了是干什么的了。本科的时候曾经做过Web服务器类似的课程设计，其实有接触过，然而读研的时候方向太偏，过于底层，基本也就没做过Java Web方向相关的项目。纯粹是凭着对互联网的热忱以及一些网上有着同样追求的朋友，从读研到工作一年，依然坚持关注互联网相关技术。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　尽管后来的问题有些没答上来，但面试官还是给了我一次面试的机会，11.20日从北京飞武汉参加专场面试。一面依旧先是一些基础的题目，然后写了两个算法程序，字符串转换相关的，都挺简单的，虽然第二个题当时没有很快反应过来。一面的过程中，发现以前掌握的一些东西真的有好多都忘记了，比如UML的类图关系怎么画，数据库建表均不能第一时间写对，再比如Http协议302/301是什么意思等。我本以为会问许多和Java Web框架相关的问题，所以电面后一口气，不到一星期把《Spring in Action》、《Struts in Action》还有Hibernate的一本电子书以及《深入分析Java Web》全刷了一遍，然而并没有问太多框架相关的问题。后来算是自由发挥，就把自己以前做项目时碰见的JVM调优过程讲了讲。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　二面面对两个面试官，基本不算是技术面，主要对着简历问了一些做过的项目相关问题，以及个人经历。由于自己项目经验还算丰富，做过的东西还算扎实，所以这个不算什么问题。后来又问了自己对自己的定位及对于B2B业务有什么看法以及base的问题，这就不多说了。有一个问题倒是难了我一下，当然也就1秒钟。根据我的简历，我做系统和底层的东西更适合，所以面试官问我是否愿意去阿里云，我知道阿里云是潘爱民老师带的，<span style="line-height:1.5;">以前还和潘爱民老师合过影，</span><span style="line-height:1.5;">相信很多人都看过《程序员的自我修养》，从中受益过。但我的回答是：“我确实觉得这个方向也不错，也很仰慕潘老师，但既然我来面B2B Java Web相关的职位，说明我更倾向于做偏应用方向的东西。”</span></p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　大概是因为我有一些同学和朋友在阿里，自己也比较关注阿里，对阿里的技术框架还算比较了解，所以二面比一面情况好很多，感觉面试官还是挺满意的，只不过提了一点就是我刚工作一年多，觉得年头少了点。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　终面完毕，和两次面试的面试官都打好招呼后回到住的酒店睡了一觉，本来有些忐忑，结果快晚上时，面试官一个电话过来说我情况还不错，以后就算是同事了，预计会一周之内通知。听到这个消息，当然是相当兴奋，在向面试官道谢后，和武汉的同学一起吃了顿饭，心情格外舒畅。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　现在应该算是在等待最终的offer吧，希望自己好运。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　“你学习一门技术的最佳时机是三年前，其次是现在。”这话从来很灵验。经过这次面试，觉得需要整理下Java Web相关的资料，以便自己提高或者更快适应可能面临的新的工作。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　首先谈谈Java Web需要掌握哪些东西。这里是一些知识点的搜集，暂不做详细说明，欢迎各位博友补充指正。</p><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;font-size:21px;text-indent:0em;text-align:left;">1.底层</h2><ul style="margin-left:30px;" class="list-paddingleft-2"><li><p style="text-indent:0em;text-align:left;">Java语言相关的就不说了，首先是JVM的结构和工作原理。比较重要的是Java内存模型，各种GC算法，Classloader的加载原理等。个人对底层的一些东西还算比较了解，所以不过多纠结，实际上程序编译链接过程以及二进制文件的处理还是很值得研究的。</p></li><li><p style="text-indent:0em;text-align:left;">JVM监控及调优。作为一个开发人员并不一定需要非常熟悉JVM调优的方法，但如果具备JVM监控及调优的能力，将让你对程序运行状况了如指掌，对于问题定位也会敏感得多。</p></li><li><p style="text-indent:0em;text-align:left;">Java多线程。对于线程安全的理解，以及如何在自己的程序中避免多线程造成的不一致问题等。</p></li><li><p style="text-indent:0em;text-align:left;">I/O。Java中常常提到的是BIO/NIO，即阻塞型I/O与非阻塞型I/O，其实并不难理解，结合Linux中的同步I/O和异步I/O的实现原理，基本都是相通的，每种I/O方式解决的问题，又存在什么问题，为什么使用epoll。</p></li></ul><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;font-size:21px;text-indent:0em;text-align:left;">2.Servlet</h2><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Servlet是运行于服务端的java程序，一般实现自己的Java服务端应用都从HttpServlet类继承，然后实现自己的init | doGet | doPost | service方法。Servlet的生命周期从其加载开始，首先执行一次初始化，调用init方法，之后便可运行自身的服务，当生命周期结束时，调用destroy方法回收资源，结束服务。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　仅了解原理当然是不够的，还要实战能力，在IDE中写写简单的代码谁都会，然而真正让一个程序能够运行起来也还需要点其他的东西，这里我指的是Servlet的容器。servlet的容器有很多，常用的以Tomcat为例，安装好Tomcat后，在开发时必须包含进Tomcat的lib。IDE确实惯坏了好多人，目录如何组织，程序如何编译、如何部署这些问题都被IDE屏蔽掉了，如果要对整体有比较透彻的了解，建议一切从命令行动手。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　具体可参考：《Servlet与JSP核心编程》。</p><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;font-size:21px;text-indent:0em;text-align:left;">3.框架</h2><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Java Web开发的用到的框架之多简直令人发指，而且因为版本的更新换代导致的问题也是层出不穷。然而这也是Web技术不断演化的结果，要么选择接受，要么引领节奏。</p><h3 style="margin-top:10px;margin-bottom:10px;padding-left:25px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;text-indent:0em;text-align:left;">Spring</h3><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Spring是一个强大而又“轻量级”的Java开发框架，之所以打引号是因为感觉并不是那么轻量。Spring的主要目的在于简化Java应用开发，以配置方式代替硬编码方式的编程，模块解耦，其架构如下图所示。包括了数据访问、远程通信、AOP、核心容器等部分。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　</p><p><img width="452" height="330" style="margin-right:auto;margin-left:auto;border:0px;display:block;" class="img_loading" src="http://ss.csdn.net/p?http://mmbiz.qpic.cn/mmbiz_png/QCu849YTaIOiamDru1RVKgBAyOgTgVZiciaOCsnmNL6q4syiaHStkpOriaQtecciauMPH1FQ5mAZh5A2FboXXQLBtqyw/0?wx_fmt=png" alt="0?wx_fmt=png" /></p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;"><strong> Figure 1 Spring体系架构</strong></p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Spring的核心主要有三点：</p><ul style="margin-left:30px;" class="list-paddingleft-2"><li><p style="text-indent:0em;text-align:left;"><em><strong>IoC</strong></em>：反转控制。</p></li></ul><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　反转控制就是指将控制权由类内部抽离到容器，由容器类的实例化及动作进行配置管理。</p><ul style="margin-left:30px;" class="list-paddingleft-2"><li><p style="text-indent:0em;text-align:left;"><strong><em>Dependency-injection</em></strong>：依赖注入  </p></li></ul><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　对象的依赖关系由负责协调系统中各个对象的第三方组件在创建对象时设定。对象不自行创建或管理它们的依赖关系，依赖关系被自动注入到需要它们的对象中。通过参数和配置能够体会出“注入”这个词在这里有多形象。依赖注入的最大好处就是松耦合。不需要再类内部去和特定的类进行绑定，而是将一些依赖关系以参数的形式注入到类内部。</p><ul style="margin-left:30px;" class="list-paddingleft-2"><li><p style="text-indent:0em;text-align:left;"><em><strong>Aspect Oriented Programming</strong></em>：面向切向编程</p></li></ul><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;"> 　　在软件开发中，分布于应用中多处的功能被称为横切关注点。这些横切关注点往往和业务逻辑是相分离的，将这些横切关注点与业务逻辑相分离正式AOP要解决的。AOP编程能够让遍布在应用各处的功能分离出来形成可重用的组件。是高内聚低耦合的又一个体现，将通用实现模块与核心业务模块相分离。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;"> 　　具体参考：《Spring In Action》</p><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;font-size:21px;text-indent:0em;text-align:left;">Hibernate</h2><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　数据持久化框架其实也有很多，需要掌握的不仅是Hibernate，只是因为Hibernate在以前的企业级应用中用的比较多而已，另外MyBatis也占有相当重要的份额。Hibernate是一个全自动的持久化框架，并不是那么方便，所以很多开发者更倾向于使用MyBatis，淘宝就是这样。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Hibernate的工作流程：首先通过configuration对象读取配置文件；解析映射信息，创建StandardSessionFactory；调用openSession打开session；创建事务transaction，之后进行持久化操作；完成后提交事务，关闭session，关闭sessionFactory。</p><p style="margin:10px auto;color:rgb(51,51,51);"><img width="412" height="434" style="margin-right:auto;margin-left:auto;border:0px;display:block;" class="img_loading" src="http://ss.csdn.net/p?http://mmbiz.qpic.cn/mmbiz_png/QCu849YTaIOiamDru1RVKgBAyOgTgVZicia5Tjzl5PK4zRnwrrUh6QMxQyj7D0a6nicPLwgQSeJDUdibwBvial9CX5ww/0?wx_fmt=png" alt="0?wx_fmt=png" /></p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;"><strong> Figuer 2 Hibernate工作流程</strong></p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　要理解ORM的理念：ORM意为对象关系映射。是一种为了解决程序的面向对象模型与数据库关系模型互不匹配问题的技术。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　hibernate中比较重要的是对象的4种状态转换及条件。分别是transient瞬时态、persistent持久态、detached游离态和移除态，状态转换如下：</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;"> </p><p style="margin:10px auto;color:rgb(51,51,51);"><img width="387" height="231" style="margin-right:auto;margin-left:auto;border:0px;display:block;" class="img_loading" src="http://ss.csdn.net/p?http://mmbiz.qpic.cn/mmbiz_png/QCu849YTaIOiamDru1RVKgBAyOgTgVZiciaUfrcKgIia6I1ibibImHYictBNTqNayPD4RdV0XibReCibiaSAgXibgIEHCQSQQ/0?wx_fmt=png" alt="0?wx_fmt=png" /></p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;"><strong> Figure 3 Hibernate对象状态转换图</strong></p><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;font-size:21px;text-indent:0em;text-align:left;">Struts 2</h2><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Struts出现的最早，也是思想提供者之一，从名字就可以看得出其重要性，其设计目的是为了简化Java开发，统一事务切面化。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　Struts最关键的地方在于Action的执行，拦截器的原理、valuestack及OGNL。</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;"> 　　具体参考：《Struts in Action》</p><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;font-size:21px;text-indent:0em;text-align:left;"> 4.HTTP</h2><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　这个不用多谈，太重要了，作为Web开发者，如果不特别熟悉Http将会是一件很麻烦的事。</p><ul style="margin-left:30px;" class="list-paddingleft-2"><li><p style="text-indent:0em;text-align:left;">Http的报头格式</p></li><li><p style="text-indent:0em;text-align:left;">Http协议的各种返回码是什么意思</p></li><li><p style="text-indent:0em;text-align:left;">https如何实现</p></li><li><p style="text-indent:0em;text-align:left;">B/S架构的工作原理</p></li><li><p style="text-indent:0em;text-align:left;">Cookie和Session的原理</p></li><li><p style="text-indent:0em;text-align:left;">restful API</p></li></ul><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;color:rgb(25,119,176);line-height:1.5;font-size:21px;text-indent:0em;text-align:left;">5.设计模式</h2><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　这里就不列举23种模式了，个人觉得纯粹看书学习《设计模式》并没有什么用，要在实际应用中碰到，并且多问几个为什么，而且自己写代码时能有使用设计模式的意识才能对各种设计模式有更深的领悟。</p><h2 style="margin-top:10px;margin-bottom:10px;padding-left:20px;font-weight:bold;font-size:21px;white-space:normal;color:rgb(25,119,176);line-height:1.5;text-indent:0em;text-align:left;">6.总结</h2><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　当然Web开发远不止这么些东西，我这里暂时也只好先列些重要的。应用开发后，还有部署的问题，因此又会涉及CDN和负载均衡等问题就更复杂了......</p><p style="margin:10px auto;color:rgb(51,51,51);text-indent:0em;text-align:left;">　　另外在Web开发的过程中，要养成良好的开发习惯，比如开发之前能够熟练地使用UML类图，交互图等，这将避免你犯很多错误。感谢面试官轻虐，自己觉得还有许多不扎实的地方，还需要继续努力才能对得起这次机会。</p><img border="0" class="__bg_gif img_loading" style="visibility:visible !important;" vspace="0" width="60" src="http://ss.csdn.net/p?http://mmbiz.qpic.cn/mmbiz/z9433rAGTDdN3rBnM7jtI8RmyuibuQQpDiabWEC5EYnI0FTBnVhBCXelPl5tu1d0l9qqmgwY1wwPRAOvW5wMHXkA/0?wx_fmt=gif" alt="0?wx_fmt=gif" /><p style="min-height:1em;"><span style="color:rgb(249,3,21);"><strong>Java团长</strong></span></p><p style="min-height:1em;"><span style="color:rgb(249,3,21);"><strong>微信号：javatuanzhang</strong></span></p><span style="color:rgb(249,3,21);"><strong>每日分享Java技术干货</strong></span><p style="min-height:1em;"><img class="img_loading" style="visibility:visible !important;" src="http://ss.csdn.net/p?http://mmbiz.qpic.cn/mmbiz_jpg/QCu849YTaINMeYcwuTolPdorxp2IBvWFz9ibQ7G6ZNN2hiblBNNZH3HGnrFtoJdD20ezRPA4CqyJfyrwT1Egaz0A/640?wx_fmt=jpeg" alt="640?wx_fmt=jpeg" /></p><p style="min-height:1em;"><span style="color:rgb(216,79,169);"><strong><span style="font-size:12px;line-height:24px;">长按识别二维码</span></strong></span></p></div>
+                      </div>
+    </article>
+      <div class="readall_box csdn-tracking-statistics tracking-click" data-mod="popu_376">
+          <div class="read_more_mask"></div>
+          <a class="btn btn-large btn-gray-fred read_more_btn" target="_self">阅读全文</a>
+      </div>
+      <div class="article_copyright">
+              </div>
+      <ul class="article_collect clearfix csdn-tracking-statistics tracking-click"  data-mod="popu_378">
+          <li class="tit">本文已收录于以下专栏：</li>
+<!--          [startarticlecolumns]-->
+                                <!--          [endarticlecolumns]-->
+      </ul>
+      <div class="comment_box clearfix">
+          <div id="comment_form">
+              <div id="commentsbmitarear">
+                              </div>
+          </div>
+      </div>
+      <div class="comment_li_outbox">
+          <div id="comment_list"></div>
+      </div>
+
+      <div class="more_comment">
+          <div id="comment_bar" class="trackgin-ad" data-mod="popu_385"></div>
+      </div>
+
+      <h3 class="recommend_tit" id="related">相关文章推荐</h3>
+      <div class="recommend_list clearfix" id="rasss">
+                                                                                      <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/csii_zhuy/article/details/78887825"  target="_blank" strategy="BlogCommendFromCsdn_0">Java Web架构知识整理——记一次阿里面试经历</a></h2>
+                          <div class="summary">
+                              惭愧，从一次电面说起。我个人在某国企做一名软件设计师，国企大家都懂的，待遇一般而且没啥意思，做的方向基本都是操作系统、驱动和工具软件的开发，语言基本都是C/C++。最近也想跳槽，刚好有幸得到了一次阿里...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/csii_zhuy" target="_blank" strategy="BlogCommendFromCsdn_0"><img src="http://avatar.csdn.net/9/6/3/3_csii_zhuy.jpg" alt="csii_zhuy" title="csii_zhuy"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/csii_zhuy">csii_zhuy</a></li>
+                              <li class="time">2017年12月24日 22:05</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>28</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/mengzhengjie/article/details/53992377"  target="_blank" strategy="BlogCommendFromCsdn_1">Java Web架构知识整理——记一次阿里面试经历</a></h2>
+                          <div class="summary">
+                              http://www.cnblogs.com/XiaoHDeBlog/p/4960406.html
+
+
+
+　惭愧，从一次电面说起。我个人在某国企做一名软件设计师，国企大家都懂的，待遇一般而且没...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/mengzhengjie" target="_blank" strategy="BlogCommendFromCsdn_1"><img src="http://avatar.csdn.net/7/D/F/3_mengzhengjie.jpg" alt="mengzhengjie" title="mengzhengjie"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/mengzhengjie">mengzhengjie</a></li>
+                              <li class="time">2017年01月03日 10:46</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>175</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                      <script>
+                      (function() {
+                          var s = "_" + Math.random().toString(36).slice(2);
+                          document.write('<div id="' + s + '"></div>');
+                          (window.slotbydup=window.slotbydup || []).push({
+                              id: '4765209',
+                              container: s,
+                              size: '808,120',
+                              display: 'inlay-fix'
+                          });
+                      })();
+                  </script>
+                                                                <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/zhousenshan/article/details/52491713"  target="_blank" strategy="BlogCommendFromCsdn_2">Java Web架构知识整理——记一次阿里面试经历</a></h2>
+                          <div class="summary">
+                              惭愧，从一次电面说起。我个人在某国企做一名软件设计师，国企大家都懂的，待遇一般而且没啥意思，做的方向基本都是操作系统、驱动和工具软件的开发，语言基本都是C/C++。最近也想跳槽，刚好有幸得到了一次阿里...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/zhousenshan" target="_blank" strategy="BlogCommendFromCsdn_2"><img src="http://avatar.csdn.net/B/0/7/3_zhousenshan.jpg" alt="zhousenshan" title="zhousenshan"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/zhousenshan">zhousenshan</a></li>
+                              <li class="time">2016年09月10日 00:01</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>816</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/u012017783/article/details/73824385"  target="_blank" strategy="BlogCommendFromCsdn_3">Java Web架构知识整理</a></h2>
+                          <div class="summary">
+                              1.底层
+
+Java语言相关的就不说了，首先是JVM的结构和工作原理。比较重要的是Java内存模型，各种GC算法，Classloader的加载原理等。个人对底层的一些东西还算比较了解，所以不过多纠...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/u012017783" target="_blank" strategy="BlogCommendFromCsdn_3"><img src="http://avatar.csdn.net/5/D/4/3_u012017783.jpg" alt="u012017783" title="u012017783"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/u012017783">u012017783</a></li>
+                              <li class="time">2017年06月27日 22:22</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>218</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/daichangxia/article/details/64161181"  target="_blank" strategy="BlogCommendFromCsdn_4">java web阿里电话面试总结</a></h2>
+                          <div class="summary">
+                              最近的一次java阿里电话面试,虽然挂了,但是增加了一些经验                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/daichangxia" target="_blank" strategy="BlogCommendFromCsdn_4"><img src="http://avatar.csdn.net/0/1/1/3_daichangxia.jpg" alt="daichangxia" title="daichangxia"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/daichangxia">daichangxia</a></li>
+                              <li class="time">2017年03月20日 21:53</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>678</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                        <!-- 广告位：PC端-博客详情通栏7（feed流）-808*120 -->
+                  <script>
+                      (function() {
+                          var s = "_" + Math.random().toString(36).slice(2);
+                          document.write('<div id="' + s + '"></div>');
+                          (window.slotbydup=window.slotbydup || []).push({
+                              id: '4983339',
+                              container: s,
+                              size: '808,120',
+                              display: 'inlay-fix'
+                          });
+                      })();
+                  </script>
+                                                                              <dl class="clearfix csdn-tracking-statistics downloadElement" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dt><a href="http://download.csdn.net/download/broadview2006/9254517" target="_blank" strategy="BlogCommendFromCsdn_5"><img class="maxwidth" src="http://csdnimg.cn/release/download/old_static/images/minetype/pdf.svg" alt="" title=""></a></dt>
+                      <dd>
+                          <div class="summary">
+                              <h2><a href="http://download.csdn.net/download/broadview2006/9254517" target="_blank" strategy="BlogCommendFromCsdn_5">架构探险——从零开始写Java Web框架试读样章</a></h2>
+                              <div class="summary">
+                                  <ul>
+                                      <li class="time">2015年11月09日 14:20</li>
+                                      <li class="visited_num fileSize">771KB</li>
+                                      <li class="download_btn"><a href="http://download.csdn.net/download/broadview2006/9254517" target="_blank">下载</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/qqqqq1993qqqqq/article/details/74778628"  target="_blank" strategy="BlogCommendFromCsdn_6">【简记】Java Web 内幕——一次完整的HTTP事务是怎样一个过程？</a></h2>
+                          <div class="summary">
+                              B/S 网络架构： 
+http://blog.csdn.net/m13666368773/article/details/8060481 （简单地解释了正向代理和反向代理，很清晰！）（转）一次完整的H...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/qqqqq1993qqqqq" target="_blank" strategy="BlogCommendFromCsdn_6"><img src="http://avatar.csdn.net/5/8/4/3_qqqqq1993qqqqq.jpg" alt="qqqqq1993qqqqq" title="qqqqq1993qqqqq"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/qqqqq1993qqqqq">qqqqq1993qqqqq</a></li>
+                              <li class="time">2017年07月07日 19:56</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>315</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/wangpei555/article/details/66974195"  target="_blank" strategy="BlogCommendFromCsdn_7">java web后台面试知识点</a></h2>
+                          <div class="summary">
+                              一、String,StringBuffer, StringBuilder 的区别是什么？String为什么是不可变的？
+答：   1、String是字符串常量，StringBuffer和StringB...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/wangpei555" target="_blank" strategy="BlogCommendFromCsdn_7"><img src="http://avatar.csdn.net/A/2/4/3_wangpei555.jpg" alt="wangpei555" title="wangpei555"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/wangpei555">wangpei555</a></li>
+                              <li class="time">2017年03月27日 17:44</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>1946</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/Together_CZ/article/details/73822632"  target="_blank" strategy="BlogCommendFromCsdn_8">阿里巴巴的相关-----ODPS技术架构、Java Web架构、PAI机器学习平台</a></h2>
+                          <div class="summary">
+                              摘要：ODPS是分布式的海量数据处理平台，提供了丰富的数据处理功能和灵活的编程框架。本文从ODPS面临的挑战、技术架构、Hadoop迁移到ODPS、应用实践注意点等方面带领我们初步了解了ODPS的现状...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/Together_CZ" target="_blank" strategy="BlogCommendFromCsdn_8"><img src="http://avatar.csdn.net/6/A/A/3_together_cz.jpg" alt="Together_CZ" title="Together_CZ"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/Together_CZ">Together_CZ</a></li>
+                              <li class="time">2017年06月27日 19:26</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>876</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                                                                    <dl class="clearfix csdn-tracking-statistics" data-mod="popu_387" data-poputype="feed"  data-feed-show="false"  data-dsm="post">
+                      <dd>
+                          <h2><a href="http://blog.csdn.net/u012469528/article/details/78588821"  target="_blank" strategy="BlogCommendFromCsdn_9">助你快速踏入高薪职场——2017面试集锦之Java web</a></h2>
+                          <div class="summary">
+                              1 、Tomcat  的优化经验
+
+        答:去掉对 web.xml 的监视，把 jsp 提前编辑成 Servlet。有富余物理内存的情况，加大 tomcat 使用的 jvm 的内存
+
+
+2...                          </div>
+                          <ul>
+                              <li class="avatar_img"><a href="http://blog.csdn.net/u012469528" target="_blank" strategy="BlogCommendFromCsdn_9"><img src="http://avatar.csdn.net/5/F/3/3_u012469528.jpg" alt="u012469528" title="u012469528"></a></li>
+                              <li class="user_name"><a href="http://blog.csdn.net/u012469528">u012469528</a></li>
+                              <li class="time">2017年11月21日 09:21</li>
+                              <li class="visited_num"><i class="icon iconfont icon-read"></i><span>114</span></li>
+                          </ul>
+                      </dd>
+                  </dl>
+                                                    </div>
+  </main>
+<aside>
+  <div class="right_box user_info">
+      <dl class="inf_bar clearfix">
+          <dt class="csdn-tracking-statistics tracking-click" data-mod="popu_381">
+              <a href="http://blog.csdn.net/fygu18" target="_blank">
+                  <img src="http://avatar.csdn.net/B/3/2/3_fygu18.jpg" class="avatar_pic">
+              </a>
+              <span class="medals" title="">
+                  </span>
+          </dt>
+          <dd>
+              <h3 class="csdn-tracking-statistics tracking-click"  data-mod="popu_380"><a href="http://blog.csdn.net/fygu18" target="_blank" id="uid">fygu18</a></h3>
+              <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379"><a class="btn btn-redborder-small "  id="span_add_follow" target="_self">＋关注</a></span>
+          </dd>
+      </dl>
+      <div class="inf_number_box clearfix">
+          <dl>
+              <dt>原创</dt>
+              <dd>33</dd>
+          </dl>
+          <dl>
+              <dt>粉丝</dt>
+              <dd id='fan'>14</dd>
+          </dl>
+          <dl>
+              <dt>喜欢</dt>
+              <dd>10</dd>
+          </dl>
+          <dl>
+        <dt>码云</dt>
+        <dd>&nbsp;</dd>
+      </dl>
+
+      </div>
+  <div class="writings">
+        <div class="public_signal clearfix">
+          <h3>他的最新文章</h3>
+          <a href="http://blog.csdn.net/fygu18" target="_blank" class="more"><span>更多文章</span></a>
+        </div>
+          <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/FYGu18/article/details/78891165" target="_blank">浅谈Java中的equals和==</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/FYGu18/article/details/78884343" target="_blank">《深入理解Java虚拟机》笔记</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/FYGu18/article/details/78877438" target="_blank">Java中的static关键字解析</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/FYGu18/article/details/78871996" target="_blank">浅谈Java中的hashcode方法</a>
+              </li>
+                            <li class="clearfix">
+                  <a href="http://blog.csdn.net/FYGu18/article/details/78851957" target="_blank">Java：类与继承</a>
+              </li>
+                        </ul>
+      </div>
+  </div>
+    <div class="user-hotArticle">
+        <h3><a href="#related" >相关推荐</a></h3>
+        <ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_563">
+<!--           [StartRelatedArticles]-->
+                                                <li>
+                        <a href="http://blog.csdn.net/csii_zhuy/article/details/78887825" target="_blank" strategy="BlogRightReleated_0">Java Web架构知识整理——记一次阿里面试经历</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/mengzhengjie/article/details/53992377" target="_blank" strategy="BlogRightReleated_1">Java Web架构知识整理——记一次阿里面试经历</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/zhousenshan/article/details/52491713" target="_blank" strategy="BlogRightReleated_2">Java Web架构知识整理——记一次阿里面试经历</a>
+                                            </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/u012017783/article/details/73824385" target="_blank" strategy="BlogRightReleated_3">Java Web架构知识整理</a>
+                                            </li>
+                            <!--            [EndRelatedArticles]-->
+        </ul>
+    </div>
+  <div class="extension_other csdn-tracking-statistics tracking-click" data-mod="popu_389">
+     <!--u3032528-->
+    <div class="flashrecommend">
+        <script type="text/javascript" src="http://mpb1.iteye.com/bwocoltlyzdec.js"></script>
+    </div>
+  </div>
+
+<!--    [StartShowSelfColumn]-->
+    <!--    [EndShowSelfColumn]-->
+    <div class="fixRight">
+        <!-- 广告位：PC端-博客详情右侧视窗2（feed流）-300*300 -->
+        <script>
+            (function() {
+                var s = "_" + Math.random().toString(36).slice(2);
+                document.write('<div id="' + s + '"></div>');
+                (window.slotbydup=window.slotbydup || []).push({
+                    id: '5384130',
+                    container: s,
+                    size: '300,300',
+                    display: 'inlay-fix'
+                });
+            })();
+        </script>
+        <div class="extension_other csdn-tracking-statistics tracking-click bottomRcom" data-mod="popu_389" style="position:absolute;z-index:-5;opacity:0;pointer-events:none">
+            <!--u3032528-->
+            <div class="flashrecommend">
+                <!-- 请置于所有广告位代码之前 -->
+                <script src="http://dup.baidustatic.com/js/dm.js"></script>
+
+                <!-- 广告位：PC端-博客详情页右侧视窗1（feed流）-300*250 -->
+                <script>
+                    (function() {
+                        var s = "_" + Math.random().toString(36).slice(2);
+                        document.write('<div id="' + s + '"></div>');
+                        (window.slotbydup=window.slotbydup || []).push({
+                            id: '4770930',
+                            container: s,
+                            size: '300,250',
+                            display: 'inlay-fix'
+                        });
+                    })();
+                </script>
+            </div>
+        </div>
+
+    </div>
+    <div class="user-hotArticle">
+        <h3>他的热门文章</h3>
+        <ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+<!--            [StartHotArticles]-->
+                                                <li>
+                        <a href="http://blog.csdn.net/fygu18/article/details/78180366">2年Java开发工作经验面试总结</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>647</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/fygu18/article/details/78466456">Java学习路线图</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>568</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/fygu18/article/details/78745690">Java后端学习流程</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>487</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/fygu18/article/details/78724722">Java虚拟机工作原理</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>394</span></div>
+                    </li>
+                                    <li>
+                        <a href="http://blog.csdn.net/fygu18/article/details/78787339">Java基础精选，你答对了几道?</a>
+                        <div class="read list-left"><i class="icon iconfont icon-read"></i><span>376</span></div>
+                    </li>
+                            <!--            [EndHotArticles]-->
+        </ul>
+    </div>
+<!--    [startcustom]-->
+    <!--    [endcustom]-->
+</aside></div>
+
+<div class="left_fixed">
+    <div class="left_show_button">
+        <span>
+          <i class="icon iconfont icon-youjiantou"></i>
+        </span>
+    </div>
+    <ul class="left_menu">
+        <li>
+            <button class="left-fixed-btn btn-like csdn-tracking-statistics tracking-click" data-mod="popu_373" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_red"><i class="icon iconfont icon-dianzan"></i></a>
+                <a class="txt" href="javascript:void(0);">0</a>
+            </button>
+        </li>
+        <li id="blog_artical_directory">
+            <button class="left-fixed-btn left_menu_btn csdn-tracking-statistics tracking-click" data-mod="popu_372" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_black"><i class="icon iconfont icon-mulu"></i></a>
+            </button>
+        </li>
+        <li class="menu_con">
+            <div class="list_father">
+                <div class="arr_box">
+                    <button class="btn-noborder arr-btn scroll-down  left_scroll_down"><i class="icon iconfont icon-xiajiantou"></i></button>
+                    <button class="btn-noborder arr-btn scroll-up left_scroll_top"><i class="icon iconfont icon-shangjiantou"></i></button>
+                </div>
+                <div class="arr"></div>
+                <div id="csdnBlogDir"></div>
+            </div>
+        </li>
+        <!--        <li>-->
+        <!--            <button class="left-fixed-btn btn-like tracking-ad" data-mod="popu_373" target="_self">-->
+        <!--                <span class="iconbox border_red"><i class="icon iconfont icon-xihuan-"></i></span>-->
+        <!--                <span class="txt">喜欢</span>-->
+        <!--                <span class="untxt">取消喜欢</span>-->
+        <!--            </button>-->
+        <!--        </li>-->
+        <li>
+            <button class="left-fixed-btn csdn-tracking-statistics tracking-click" data-mod="popu_374"  id="com-quick-collect" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_purple"><i class="icon iconfont icon-shoucang"></i></a>
+            </button>
+        </li>
+        <li>
+            <button class="left-fixed-btn btn-pinglun csdn-tracking-statistics tracking-click" data-mod="popu_544" >
+                <a href="javascript:void(0);" class="iconbox border_purple"><i class="icon iconfont icon-pinglun"></i></a>
+            </button>
+        </li>
+        <li id="share_box">
+            <button class="left-fixed-btn  csdn-tracking-statistics tracking-click"  data-mod="popu_375" target="_self">
+                <a href="javascript:void(0);" class="iconbox border_orange"><i class="icon iconfont icon-fenxiang"></i></a>
+            </button>
+            <div class="bdsharebuttonbox csdn-tracking-statistics tracking-click" data-mod="popu_172">
+                <div class="outside">
+                    <span class="iconbox border_red2"><i class="icon iconfont icon-xinlang"></i></span>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> </a>
+                </div>
+                <div class="outside">
+                    <span class="iconbox border_green"><i class="icon iconfont icon-weixin"></i></span>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> </a>
+                </div>
+                <div class="outside">
+                    <span class="iconbox border_blue"><i class="icon iconfont icon-QQ"></i></span>
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="right_fixed">
+    <div class="r_ico">
+        <i class="icon iconfont icon-jubao"></i>
+        <span class="txt" id="reportBtn">内容举报</span>
+    </div>
+    <div class="returnTop">
+        <i class="icon iconfont icon-fanhuidingbu"></i>
+        <span>返回顶部</span>
+    </div>
+</div>
+<div id="pop_win"></div>
+<div id="popup_mask"></div>
+<div class="pop_CA_cover" ></div>
+<div class="pop pop_CA" >
+    <div class="CA_header">
+        收藏助手
+        <span class="cancel_icon"  id="fapancle" ></span>
+    </div>
+    <iframe src="" id="collectIframe" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+</div>
+<!--举报-->
+<div id="report_dialog" style="top: 250px; left: 343.5px;"><div id="panel_report">
+    <div class="panel_head">不良信息举报</div>
+    <form method="post" id="frmReport" class="panel_body">
+        <table border="0" cellpadding="0" cellspacing="4" class="pop_table">
+            <tbody><tr><td colspan="2">您举报文章：<a href="http://blog.csdn.net/FYGu18/article/details/78862350" target="_blank">Java Web架构知识整理——记一次阿里面试经历</a></td></tr>
+            <tr>
+                <th style="width:60px;">举报原因：</th>
+                <td id="panel_reporttype">
+                    <label><input type="radio" class="report_type" id="report_sex" name="report_type" value="1">色情</label>
+                    <label><input type="radio" class="report_type" id="report_Politics" name="report_type" value="2">政治</label>
+                    <label><input type="radio" class="report_type" id="report_copy" name="report_type" value="3">抄袭</label>
+                    <label><input type="radio" class="report_type" id="report_ad" name="report_type" value="4">广告</label>
+                    <label><input type="radio" class="report_type" id="report_want" name="report_type" value="5">招聘</label>
+                    <label><input type="radio" class="report_type" id="report_call" name="report_type" value="6">骂人</label>
+                    <br>
+                    <label><input type="radio" class="report_type" id="report_other" name="report_type" value="7">其他</label>
+                    <input type="text" name="report_other_content" id="report_other_content" maxlength="30" style="display: none;">
+                </td>
+            </tr>
+            <tr id="panel_originalurl" style="display: none;">
+                <th>原文地址：</th>
+                <td>
+                    <input id="originalurl" value="http://" name="originalurl" type="text" style="width: 90%;">
+                </td>
+            </tr>
+            <tr>
+                <th id="sp_reason">原因补充：</th>
+                <td>
+                    <textarea id="report_description" style="width: 300px;" rows="3" name="report_description"></textarea>
+                    <p id="sp_n" style="color:#999;margin:0px;padding:0px;">(最多只允许输入30个字)</p>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input id="btnSubmitReport" name="submit" type="image" align="middle" class="btn_1" src="http://csdnimg.cn/release/phoenix/images/btn_submit.jpg">
+                    <span style="padding-left:20px;"></span>
+                    <img id="btnCloseReportDialog" src="http://csdnimg.cn/release/phoenix/images/btn_cancel.jpg" align="middle">
+                    <div id="error" style="color: Red">
+                    </div>
+                </td>
+            </tr>
+            </tbody></table>
+    </form>
+</div>
+    <script language="javascript" type="text/javascript">
+        var isComment=0;
+        //显示隐藏地址
+        $(function () {
+          console.log("version:phoenix");
+            if(isComment){
+                $("#report_description").attr("disabled",true);
+                $("#sp_n").hide();
+                $("#sp_reason").html("评论内容：");
+            }
+            $(".report_type").click(function () {
+                $("#panel_originalurl,#report_other_content").hide();
+                switch ($(this).val()) {
+                    case '3':
+                        $("#panel_originalurl").show();
+                        $("#originalurl").focus();
+                        break;
+                    case '7':
+                        if(isComment){
+                            $("#report_other_content").show().focus();
+                        }
+                        break;
+                }
+
+            });
+
+            $("#frmReport").submit(function () {
+                if (!currentUserName) {
+
+                    if (confirm("您的操作必须登录，是否登录？")) {
+                        location.href = "http://passport.csdn.net/account/login?from=" + encodeURIComponent(location.href);
+                        return false;
+                    }
+                    return false;
+                }
+
+                var reportType = $("input[name=report_type]:checked").val();
+                if(!reportType){
+                    alert("请选择举报原因！");
+                    return false;
+                }
+                var otherInfo = "";
+                switch (reportType) {
+                    case '3':
+                        otherInfo = $("#originalurl").val();
+                        if (otherInfo == ""||otherInfo=="http://") {
+                            alert("举报抄袭必须提供原创文章地址！");
+                            $("#originalurl").focus();
+                            return false;
+                        } else if(!checkeURL(otherInfo)) {
+                            alert("请输入正确的原创文章地址！");
+                            $("#originalurl").focus();
+                            return false;
+                        }
+                        break;
+                    case '7':
+                        otherInfo = $("#report_other_content").val();
+                        if (isComment && !otherInfo) {
+                            alert("请填写举报的具体原因！");
+                            $("#report_other_content").focus();
+                            return false;
+                        }
+                        if(!isComment){
+                            if(!$("#report_description").val()){
+                                alert("请填写举报的具体原因！");
+                                $("#report_description").focus();
+                                return false;
+                            }
+                        }
+                        break;
+                }
+                if(!isComment){
+                    if($("#report_description").val().length>30){
+                        alert("举报原因最多只允许输入30个字！");
+                        return false;
+                    }
+                }
+	            nowTime = {
+		            year: new Date().getFullYear(),
+		            month: parseInt(new Date().getMonth())+1,
+		            day: new Date().getDate(),
+		            hours: parseInt(new Date().getHours())+1,
+		            minutes: parseInt(new Date().getMinutes())+1,
+		            seconds: parseInt(new Date().getSeconds())+1
+	            };
+	            var data = {
+		            articleId: fileName,
+		            commentId: 0,
+		            reportType: reportType,
+		            originalurl: $("#originalurl").val(),
+		            report_other_content: $("#report_other_content").val(),
+		            report_description: $("#report_description").val(),
+		            currentUserName: currentUserName,
+		            updatetime: nowTime.year+'/'+nowTime.month+'/'+nowTime.day+' '+ nowTime.hours+':'+nowTime.minutes+':'+seconds,
+		            blogUser: username
+	            };
+	            if(!isComment){//如果是举报文章
+		            data.report_other_content = data.report_description;
+		            // data.report_description = "1. 神经网络这是一个常见的神经网络的图：这是一个常见的三层神经网络的基本构成，Layer L1是输入层，Layer L2是隐含层";
+	            }
+
+	            $.post(blog_address + "/common/report?id="+fileName+"&t=2", data, function (data) {
+		            if (data.result == 1){
+			            SetError("感谢您的举报，我们会尽快审核！");
+		            }else{
+			            if (data.content) alert(data.content);
+		            }
+
+	            });
+                return false;
+            });
+
+            $("#btnCloseReportDialog").click(function () {
+                CloseDiv();
+            });
+
+        });
+
+        //提示后关闭方法
+        function SetError(error) {
+            $("#btnCloseReportDialog").trigger("click");
+            alert(error);
+            CloseDiv();
+        }
+
+        //关闭方法
+        function CloseDiv() {
+
+            $.removeMask();
+            $("#report_dialog").hide();
+            return false;
+        }
+
+        //验证url
+        function checkeURL(url){
+            return /^http(s)?:\/\/([\w-]+\.)+[\w-]+/i.test(url);
+        }
+    </script>
+</div>
+<!--  fixme 后期清理掉  -->
+<div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+    <script id="adJs52b5334"></script>
+    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+</div>
+<script src="http://c.csdnimg.cn/public/common/libs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://csdnimg.cn/release/phoenix/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+<!-- <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script> -->
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<script type="text/javascript" >
+    if($(".article_collect li").length==1){$(".article_collect").hide();}
+    if($(".article_tags li").length==1){$(".article_tags").hide();}
+    $(".edit a").attr("href","http://write.blog.csdn.net/postedit/"+fileName);
+    $.each($(".edu_li a"),function(){$(this).attr("href",$(this).attr("href").replace("blog7","blog9"))});
+    new CNick('#uid').showNickname();
+
+    if($("#fan").html()=="")
+    {
+	    $("#fan").html(0);
+    }
+</script>
+<script src="http://c.csdnimg.cn/public/common/append_mark/appendMark.min.js?v=5.00.43" type="text/javascript"></script>
+<script type="text/javascript">
+    appendMark($('.recommend_list').children('a').find('dt'),$('.extension_other'))
+</script>
+<div class=""id="loginWrap"></div>
+<div class="" id="dlMask"></div>
+</body>

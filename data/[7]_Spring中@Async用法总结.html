@@ -1,0 +1,1607 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>          
+            <link rel="canonical" href="http://blog.csdn.net/qq_34531925/article/details/78835095"/> 
+
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848" /> 
+       
+    <title>Spring中@Async用法总结 - qq_34531925的博客 - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="引言： 在Java应用中，绝大多数情况下都是通过同步的方式来实现交互处理的；但是在处理与第三方系统交互的时候，容易造成响应迟缓的情况，之前大部分都是使用多线程来完成此类任务，其实，在Spring 3.x之后，就已经内置了@Async来完美解决这个问题，本文将完成介绍@Async的用法。1. &#160;何为异步调用？&#160; &#160; 在解释异步调用之前，我们先来看同步调用的定义；同步就是整个处理过程顺序执行，当各个" />
+
+    <meta name="keywords" content="spring" />
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/skin-yellow/css/style.css?v=1.4" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/qq_34531925/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+
+<body>
+     
+        <div class="tracking-ad" data-view="true" data-mod="ad_popu_72"  data-mtp="62" data-order="40" data-con="ad_content_2072" >
+                     <script id="popuLayer_js_q" src="http://ads.csdn.net/js/popuLayer.js" defer="defer"  type="text/javascript"></script>
+                <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+    	                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 -->
+                    <div id="cpro_u2895327">
+                        <!-- 投放代码 -->
+                        <script src="http://dup.baidustatic.com/js/ds.js"></script>
+                       <!-- 广告位：PC端-博客详情页右侧弹窗-300*250 -->
+                            <script>
+                                (function () {
+                                    var s = "_" + Math.random().toString(36).slice(2);
+                                    document.write('<div id="' + s + '"></div>');
+                                    (window.slotbydup = window.slotbydup || []).push({
+                                        id: '4740870',
+                                        container: s,
+                                        size: '300,250',
+                                        display: 'inlay-fix'
+                                    });
+                                })();
+                            </script>
+                    </div></div>
+                <script>  document.getElementById("popuLayer_js_q").onload = function () {
+      var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+      window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+  }</script>
+            
+     
+        </div>
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/qq_34531925">qq_34531925的博客</a></h2>
+            <h3></h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/qq_34531925?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/qq_34531925?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/qq_34531925/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                   
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "qq_34531925";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/qq_34531925";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+<a href="http://blog.csdn.net/turingbooks/article/details/78475571">
+<font color=red><strong>图灵赠书——程序员11月书单</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://edu.csdn.net/topic/python2?utm_source=blog4">
+<font color=blue><strong>【思考】Python这么厉害的原因竟然是！</strong></font></a>
+&nbsp;&nbsp;&nbsp;&nbsp
+
+<a 
+href="http://blog.csdn.net/epubit17/article/details/78606519">
+<font color=blue><strong>感恩节赠书：《深度学习》等异步社区优秀图书和作译者评选启动！</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/broadview2006/article/details/78603363">
+<font color=red><strong>每周荐书：京东架构、Linux内核、Python全栈</strong></font></a>
+
+
+
+</div>
+                        </div>
+
+                        
+
+
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=Spring%e4%b8%ad%40Async%e7%94%a8%e6%b3%95%e6%80%bb%e7%bb%93&u=http://blog.csdn.net/qq_34531925/article/details/78835095"
+    </script>
+<div id="article_details" class="details">
+    
+<div class="article_title">   
+         <span class="ico ico_type_Repost"></span>
+
+    <h1>
+        <span class="link_title"><a href="/qq_34531925/article/details/78835095">
+        Spring中@Async用法总结        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+    
+    <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/spring' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">spring</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2017-12-18 17:17</span>
+            <span class="link_view" title="阅读次数">153人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(0)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('Spring%e4%b8%ad%40Async%e7%94%a8%e6%b3%95%e6%80%bb%e7%bb%93','78835095');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(78835095,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('6905926','qq_34531925','top','78835095');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">spring<em>（20）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/qq_34531925/article/category/6905926"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_6905926">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+
+  
+
+  
+  
+     
+
+
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+        <div class="markdown_views"><div id="article_content" class="article_content csdn-tracking-statistics">
+
+<p>引言： 在Java应用中，绝大多数情况下都是通过同步的方式来实现交互处理的；但是在处理与第三方系统交互的时候，容易造成响应迟缓的情况，之前大部分都是使用多线程来完成此类任务，其实，在Spring 3.x之后，就已经内置了@Async来完美解决这个问题，本文将完成介绍@Async的用法。</p>
+<p>1. &nbsp;何为异步调用？</p>
+<p>&nbsp; &nbsp; 在解释异步调用之前，我们先来看同步调用的定义；同步就是整个处理过程顺序执行，当各个过程都执行完毕，并返回结果。 异步调用则是只是发送了调用的指令，调用者无需等待被调用的方法完全执行完毕；而是继续执行下面的流程。</p>
+<p>&nbsp; &nbsp; &nbsp;例如， 在某个调用中，需要顺序调用 A, B, C三个过程方法；如他们都是同步调用，则需要将他们都顺序执行完毕之后，方算作过程执行完毕； 如B为一个异步的调用方法，则在执行完A之后，调用B，并不等待B完成，而是执行开始调用C，待C执行完毕之后，就意味着这个过程执行完毕了。</p>
+<p>2. &nbsp;常规的异步调用处理方式</p>
+<p>&nbsp; &nbsp; 在Java中，一般在处理类似的场景之时，都是基于创建独立的线程去完成相应的异步调用逻辑，通过主线程和不同的线程之间的执行流程，从而在启动独立的线程之后，主线程继续执行而不会产生停滞等待的情况。</p>
+<p>3. @Async介绍</p>
+<p>&nbsp; &nbsp;在Spring中，基于@Async标注的方法，称之为异步方法；这些方法将在执行的时候，将会在独立的线程中被执行，调用者无需等待它的完成，即可继续其他的操作。</p>
+<p>&nbsp; &nbsp; &nbsp;如何在Spring中启用@Async</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;基于Java配置的启用方式：</p>
+<p></p>
+<div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" target="_blank">view plain</a><span class="tracking-ad"> <a href="#" class="CopyToClipboard" title="copy" target="_blank">copy</a></span><div></div><span class="tracking-ad"> <a href="#" class="PrintSource" title="print" target="_blank">print</a></span><a href="#" class="About" title="?" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span>@Configuration&nbsp;&nbsp;</span></span></li><li class=""><span>@EnableAsync&nbsp;&nbsp;</span></li><li class="alt"><span>public&nbsp;class&nbsp;SpringAsyncConfig&nbsp;{&nbsp;…&nbsp;}&nbsp;&nbsp;</span></li></ol></div><pre class="html">@Configuration
+@EnableAsync
+public class SpringAsyncConfig { ... }
+</pre>&nbsp; &nbsp; &nbsp;基于XML配置文件的启用方式，配置如下：
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" target="_blank">view plain</a><span class="tracking-ad"> <a href="#" class="CopyToClipboard" title="copy" target="_blank">copy</a></span><div></div><span class="tracking-ad"> <a href="#" class="PrintSource" title="print" target="_blank">print</a></span><a href="#" class="About" title="?" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span class="tag">&lt;</span><span class="tag-name">task:executor</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">“myexecutor”</span><span>&nbsp;</span><span class="attribute">pool-size</span><span>=</span><span class="attribute-value">“5”</span><span>&nbsp;&nbsp;</span><span class="tag">/&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="tag">&lt;</span><span class="tag-name">task:annotation-driven</span><span>&nbsp;</span><span class="attribute">executor</span><span>=</span><span class="attribute-value">“myexecutor”</span><span class="tag">/&gt;</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre class="html">&lt;task:executor id="myexecutor" pool-size="5"  /&gt;
+&lt;task:annotation-driven executor="myexecutor"/&gt;
+</pre>&nbsp; &nbsp;以上就是两种定义的方式。
+<p></p>
+<p>4. 基于@Async无返回值调用</p>
+<p>&nbsp; &nbsp; 示例如下：</p>
+<div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" target="_blank">view plain</a><span class="tracking-ad"> <a href="#" class="CopyToClipboard" title="copy" target="_blank">copy</a></span><div></div><span class="tracking-ad"> <a href="#" class="PrintSource" title="print" target="_blank">print</a></span><a href="#" class="About" title="?" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span>@Async&nbsp;&nbsp;//标注使用&nbsp;&nbsp;</span></span></li><li class=""><span>public&nbsp;void&nbsp;asyncMethodWithVoidReturnType()&nbsp;{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(“Execute&nbsp;method&nbsp;asynchronously.&nbsp;”&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;Thread.currentThread().getName());&nbsp;&nbsp;</span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="html">@Async  //标注使用
+public void asyncMethodWithVoidReturnType() {
+    System.out.println("Execute method asynchronously. "
+      + Thread.currentThread().getName());
+}
+</pre>&nbsp; 使用的方式非常简单，一个标注即可解决所有的问题。
+<p></p>
+<p>5. 基于@Async返回值的调用</p>
+<p>&nbsp; &nbsp;示例如下：</p>
+<p></p>
+<div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" target="_blank">view plain</a><span class="tracking-ad"> <a href="#" class="CopyToClipboard" title="copy" target="_blank">copy</a></span><div></div><span class="tracking-ad"> <a href="#" class="PrintSource" title="print" target="_blank">print</a></span><a href="#" class="About" title="?" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span>@Async&nbsp;&nbsp;</span></span></li><li class=""><span>public&nbsp;Future<span class="tag">&lt;</span><span class="tag-name">String</span><span class="tag">&gt;</span><span>&nbsp;asyncMethodWithReturnType()&nbsp;{&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(“Execute&nbsp;method&nbsp;asynchronously&nbsp;-&nbsp;”&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;Thread.currentThread().getName());&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(5000);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;AsyncResult<span class="tag">&lt;</span><span class="tag-name">String</span><span class="tag">&gt;</span><span>(“hello&nbsp;world&nbsp;!!!!”);&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;catch&nbsp;(InterruptedException&nbsp;e)&nbsp;{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;null;&nbsp;&nbsp;</span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="html">@Async
+public Future&lt;String&gt; asyncMethodWithReturnType() {
+    System.out.println("Execute method asynchronously - "
+      + Thread.currentThread().getName());
+    try {
+        Thread.sleep(5000);
+        return new AsyncResult&lt;String&gt;("hello world !!!!");
+    } catch (InterruptedException e) {
+        //
+    }
+
+    return null;
+}
+</pre>&nbsp; &nbsp;以上示例可以发现，返回的数据类型为Future类型，其为一个接口。具体的结果类型为AsyncResult,这个是需要注意的地方。
+<p></p>
+<p>&nbsp; &nbsp;调用返回结果的异步方法示例：</p>
+<p></p>
+<div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" target="_blank">view plain</a><span class="tracking-ad"> <a href="#" class="CopyToClipboard" title="copy" target="_blank">copy</a></span><div></div><span class="tracking-ad"> <a href="#" class="PrintSource" title="print" target="_blank">print</a></span><a href="#" class="About" title="?" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span>public&nbsp;void&nbsp;testAsyncAnnotationForMethodsWithReturnType()&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;throws&nbsp;InterruptedException,&nbsp;ExecutionException&nbsp;{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(“Invoking&nbsp;an&nbsp;asynchronous&nbsp;method.&nbsp;”&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;Thread.currentThread().getName());&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;Future<span class="tag">&lt;</span><span class="tag-name">String</span><span class="tag">&gt;</span><span>&nbsp;</span><span class="attribute">future</span><span>&nbsp;=&nbsp;</span><span class="attribute-value">asyncAnnotationExample</span><span>.asyncMethodWithReturnType();&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(true)&nbsp;{&nbsp;&nbsp;///这里使用了循环判断，等待获取结果信息&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(future.isDone())&nbsp;{&nbsp;&nbsp;//判断是否执行完毕&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(“Result&nbsp;from&nbsp;asynchronous&nbsp;process&nbsp;-&nbsp;”&nbsp;+&nbsp;future.get());&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(“Continue&nbsp;doing&nbsp;something&nbsp;else.&nbsp;”);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(1000);&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="html">public void testAsyncAnnotationForMethodsWithReturnType()
+   throws InterruptedException, ExecutionException {
+    System.out.println("Invoking an asynchronous method. "
+      + Thread.currentThread().getName());
+    Future&lt;String&gt; future = asyncAnnotationExample.asyncMethodWithReturnType();
+
+    while (true) {  ///这里使用了循环判断，等待获取结果信息
+        if (future.isDone()) {  //判断是否执行完毕
+            System.out.println("Result from asynchronous process - " + future.get());
+            break;
+        }
+        System.out.println("Continue doing something else. ");
+        Thread.sleep(1000);
+    }
+}
+</pre>&nbsp; 分析： 这些获取异步方法的结果信息，是通过不停的检查Future的状态来获取当前的异步方法是否执行完毕来实现的。
+<p></p>
+<p>6. 基于@Async调用中的异常处理机制</p>
+<p>&nbsp; &nbsp; 在异步方法中，如果出现异常，对于调用者caller而言，是无法感知的。如果确实需要进行异常处理，则按照如下方法来进行处理：</p>
+<p>&nbsp; &nbsp; 1. &nbsp;自定义实现AsyncTaskExecutor的任务执行器</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;在这里定义处理具体异常的逻辑和方式。</p>
+<p>&nbsp; &nbsp; 2. &nbsp;配置由自定义的TaskExecutor替代内置的任务执行器</p>
+<p>&nbsp; &nbsp; 示例步骤1，自定义的TaskExecutor</p>
+<p></p>
+<div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" target="_blank">view plain</a><span class="tracking-ad"> <a href="#" class="CopyToClipboard" title="copy" target="_blank">copy</a></span><div></div><span class="tracking-ad"> <a href="#" class="PrintSource" title="print" target="_blank">print</a></span><a href="#" class="About" title="?" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span>public&nbsp;class&nbsp;ExceptionHandlingAsyncTaskExecutor&nbsp;implements&nbsp;AsyncTaskExecutor&nbsp;{&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;AsyncTaskExecutor&nbsp;executor;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;ExceptionHandlingAsyncTaskExecutor(AsyncTaskExecutor&nbsp;executor)&nbsp;{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="attribute">this.executor</span><span>&nbsp;=&nbsp;</span><span class="attribute-value">executor</span><span>;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;////用独立的线程来包装，@Async其本质就是如此&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;void&nbsp;execute(Runnable&nbsp;task)&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;executor.execute(createWrappedRunnable(task));&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;void&nbsp;execute(Runnable&nbsp;task,&nbsp;long&nbsp;startTimeout)&nbsp;{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/用独立的线程来包装，@Async其本质就是如此&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;executor.execute(createWrappedRunnable(task),&nbsp;startTimeout);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;Future&nbsp;submit(Runnable&nbsp;task)&nbsp;{&nbsp;return&nbsp;executor.submit(createWrappedRunnable(task));&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//用独立的线程来包装，@Async其本质就是如此。&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;Future&nbsp;submit(final&nbsp;Callable&nbsp;task)&nbsp;{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//用独立的线程来包装，@Async其本质就是如此。&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;executor.submit(createCallable(task));&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;Callable&nbsp;createCallable(final&nbsp;Callable&nbsp;task)&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Callable()&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;T&nbsp;call()&nbsp;throws&nbsp;Exception&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;task.call();&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;catch&nbsp;(Exception&nbsp;ex)&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handle(ex);&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;ex;&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;Runnable&nbsp;createWrappedRunnable(final&nbsp;Runnable&nbsp;task)&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Runnable()&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;void&nbsp;run()&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;task.run();&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;catch&nbsp;(Exception&nbsp;ex)&nbsp;{&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handle(ex);&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;void&nbsp;handle(Exception&nbsp;ex)&nbsp;{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//具体的异常逻辑处理的地方&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.println(“Error&nbsp;during&nbsp;@Async&nbsp;execution:&nbsp;”&nbsp;+&nbsp;ex);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="html">public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor {
+    private AsyncTaskExecutor executor;
+    public ExceptionHandlingAsyncTaskExecutor(AsyncTaskExecutor executor) {
+        this.executor = executor;
+     }
+      ////用独立的线程来包装，@Async其本质就是如此
+    public void execute(Runnable task) {     
+      executor.execute(createWrappedRunnable(task));
+    }
+    public void execute(Runnable task, long startTimeout) {
+        /用独立的线程来包装，@Async其本质就是如此
+       executor.execute(createWrappedRunnable(task), startTimeout);         
+    } 
+    public Future submit(Runnable task) { return executor.submit(createWrappedRunnable(task));
+       //用独立的线程来包装，@Async其本质就是如此。
+    } 
+    public Future submit(final Callable task) {
+      //用独立的线程来包装，@Async其本质就是如此。
+       return executor.submit(createCallable(task)); 
+    } 
+
+    private Callable createCallable(final Callable task) { 
+        return new Callable() { 
+            public T call() throws Exception { 
+                 try { 
+                     return task.call(); 
+                 } catch (Exception ex) { 
+                     handle(ex); 
+                     throw ex; 
+                   } 
+                 } 
+        }; 
+    }
+
+    private Runnable createWrappedRunnable(final Runnable task) { 
+         return new Runnable() { 
+             public void run() { 
+                 try {
+                     task.run(); 
+                  } catch (Exception ex) { 
+                     handle(ex); 
+                   } 
+            }
+        }; 
+    } 
+    private void handle(Exception ex) {
+      //具体的异常逻辑处理的地方
+      System.err.println("Error during @Async execution: " + ex);
+    }
+}</pre><br>
+&nbsp;分析： 可以发现其是实现了AsyncTaskExecutor, 用独立的线程来执行具体的每个方法操作。在createCallable和createWrapperRunnable中，定义了异常的处理方式和机制。
+<p></p>
+<pre></pre>
+<p>handle()就是未来我们需要关注的异常处理的地方。</p>
+<p>&nbsp; &nbsp; &nbsp; 配置文件中的内容：</p>
+<p></p>
+<div class="dp-highlighter bg_html"><div class="bar"><div class="tools"><b>[html]</b> <a href="#" class="ViewSource" title="view plain" target="_blank">view plain</a><span class="tracking-ad"> <a href="#" class="CopyToClipboard" title="copy" target="_blank">copy</a></span><div></div><span class="tracking-ad"> <a href="#" class="PrintSource" title="print" target="_blank">print</a></span><a href="#" class="About" title="?" target="_blank">?</a></div></div><ol start="1" class="dp-xml"><li class="alt"><span><span class="tag">&lt;</span><span class="tag-name">task:annotation-driven</span><span>&nbsp;</span><span class="attribute">executor</span><span>=</span><span class="attribute-value">“exceptionHandlingTaskExecutor”</span><span>&nbsp;</span><span class="attribute">scheduler</span><span>=</span><span class="attribute-value">“defaultTaskScheduler”</span><span>&nbsp;</span><span class="tag">/&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="tag">&lt;</span><span class="tag-name">bean</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">“exceptionHandlingTaskExecutor”</span><span>&nbsp;</span><span class="attribute">class</span><span>=</span><span class="attribute-value">“nl.jborsje.blog.examples.ExceptionHandlingAsyncTaskExecutor”</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">constructor-arg</span><span>&nbsp;</span><span class="attribute">ref</span><span>=</span><span class="attribute-value">“defaultTaskExecutor”</span><span>&nbsp;</span><span class="tag">/&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="tag">&lt;</span><span class="tag-name">task:executor</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">“defaultTaskExecutor”</span><span>&nbsp;</span><span class="attribute">pool-size</span><span>=</span><span class="attribute-value">“5”</span><span>&nbsp;</span><span class="tag">/&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="tag">&lt;</span><span class="tag-name">task:scheduler</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">“defaultTaskScheduler”</span><span>&nbsp;</span><span class="attribute">pool-size</span><span>=</span><span class="attribute-value">“1”</span><span>&nbsp;</span><span class="tag">/&gt;</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre class="html">&lt;task:annotation-driven executor="exceptionHandlingTaskExecutor" scheduler="defaultTaskScheduler" /&gt;
+&lt;bean id="exceptionHandlingTaskExecutor" class="nl.jborsje.blog.examples.ExceptionHandlingAsyncTaskExecutor"&gt;
+    &lt;constructor-arg ref="defaultTaskExecutor" /&gt;
+&lt;/bean&gt;
+&lt;task:executor id="defaultTaskExecutor" pool-size="5" /&gt;
+&lt;task:scheduler id="defaultTaskScheduler" pool-size="1" /&gt;</pre>&nbsp; 分析： 这里的配置使用自定义的taskExecutor来替代缺省的TaskExecutor。
+<p></p>
+<p>7. @Async调用中的事务处理机制</p>
+<p>&nbsp; &nbsp; 在@Async标注的方法，同时也适用了@Transactional进行了标注；在其调用数据库操作之时，将无法产生事务管理的控制，原因就在于其是基于异步处理的操作。</p>
+<p>&nbsp; &nbsp; &nbsp;那该如何给这些操作添加事务管理呢？可以将需要事务管理操作的方法放置到异步方法内部，在内部被调用的方法上添加@Transactional.</p>
+<p>&nbsp; &nbsp; 例如： &nbsp;方法A，使用了@Async/@Transactional来标注，但是无法产生事务控制的目的。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 方法B，使用了@Async来标注， &nbsp;B中调用了C、D，C/D分别使用@Transactional做了标注，则可实现事务控制的目的。</p>
+<p>8. 总结</p>
+<p>&nbsp; &nbsp; &nbsp;通过以上的描述，应该对@Async使用的方法和注意事项了。</p>
+<p><br></p>
+                    </div></div>
+        <script  type="text/javascript">
+            $(function () {
+                $('pre.prettyprint code').each(function () {
+                    var lines = $(this).text().split('\n').length;
+                    var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                    $(this).addClass('has-numbering').parent().append($numbering);
+                    for (i = 1; i <= lines; i++) {
+                        $numbering.append($('<li/>').text(i));
+                    };
+                    $numbering.fadeIn(1700);
+                });
+            });
+        </script>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.13-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+
+
+        <div id="digg" ArticleId="78835095" >
+            <dl id="btnDigg" class="digg digg_disable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>0</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".tracking-ad[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".tracking-ad[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/qq_34531925/article/details/78834995';">上一篇</span><a href="http://blog.csdn.net/qq_34531925/article/details/78834995" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">JavaScript 中的正则表达式</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/qq_34531925/article/details/78843067';">下一篇</span><a href="http://blog.csdn.net/qq_34531925/article/details/78843067" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">理解MySQL——索引与优化</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36"  style="max-height:250px">                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/chenaini119/article/details/51850526" title="Spring中@Async用法总结" strategy="BlogCommendFromCsdn_0" target="_blank">Spring中@Async用法总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/74?utm_source=blog7" title="MySQL在微信支付下的高可用运营--莫晓东" strategy="undefined" target="_blank">MySQL在微信支付下的高可用运营--莫晓东</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/Erica_1230/article/details/51069025" title="Spring中@Async用法总结" strategy="BlogCommendFromCsdn_1" target="_blank">Spring中@Async用法总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/73?utm_source=blog7" title="容器技术在58同城的实践--姚远" strategy="undefined" target="_blank">容器技术在58同城的实践--姚远</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/mrxiky/article/details/74075165" title="Spring中@Async用法总结" strategy="BlogCommendFromCsdn_2" target="_blank">Spring中@Async用法总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/73?utm_source=blog7" title="SDCC 2017之容器技术实战线上峰会" strategy="undefined" target="_blank">SDCC 2017之容器技术实战线上峰会</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/blueheart20/article/details/44648667" title="Spring中@Async用法总结" strategy="BlogCommendFromCsdn_3" target="_blank">Spring中@Async用法总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/74?utm_source=blog7" title="SDCC 2017之数据库技术实战线上峰会" strategy="undefined" target="_blank">SDCC 2017之数据库技术实战线上峰会</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/x2145637/article/details/51697667" title="Spring中@Async用法总结" strategy="BlogCommendFromCsdn_4" target="_blank">Spring中@Async用法总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/73?utm_source=blog7" title="腾讯云容器服务架构实现介绍--董晓杰" strategy="undefined" target="_blank">腾讯云容器服务架构实现介绍--董晓杰</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/hry2015/article/details/67640534" title="Spring Boot系列二 Spring @Async异步线程池用法总结" strategy="BlogCommendFromCsdn_5" target="_blank">Spring Boot系列二 Spring @Async异步线程池用法总结</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/74?utm_source=home7" title="微博热点事件背后的数据库运维心得--张冬洪" strategy="undefined" target="_blank">微博热点事件背后的数据库运维心得--张冬洪</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/andyzhaojianhui/article/details/78631505" title="Spring中@Async用法详解及简单实例" strategy="BlogCommendFromCsdn_6" target="_blank">Spring中@Async用法详解及简单实例</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/ruishenh/6591721" title="spring mongodb 用法总结和实例" strategy="BlogCommendFromCsdn_7" target="_blank">spring mongodb 用法总结和实例</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/Void_J/article/details/52279021" title="Async Task 用法介绍" strategy="BlogCommendFromCsdn_8" target="_blank">Async Task 用法介绍</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/leilifengxingmw/article/details/50479248" title="Android async-http 的简单用法（菜鸟级）" strategy="BlogCommendFromCsdn_9" target="_blank">Android async-http 的简单用法（菜鸟级）</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+   
+      
+</div>
+
+     <div>
+           
+
+       
+                           
+            <!-- 广告位：PC端-博客内容页-banner1-960*90 --> 
+           
+         <!-- 广告位：PC端-博客详情页底部banner-960*90 -->
+            <script>
+                (function() {
+                    var s = "_" + Math.random().toString(36).slice(2);
+                    document.write('<div id="' + s + '"></div>');
+                    (window.slotbydup=window.slotbydup || []).push({
+                        id: '4770928',
+                        container: s,
+                        size: '960,90',
+                        display: 'inlay-fix'
+                    });
+                })();
+            </script>
+    </div>
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/qq_34531925/svc/GetSuggestContent/78835095",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '78835095';
+    var commentscount = 0;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='Spring中@Async用法总结';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+
+    <div class="side">
+
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/qq_34531925" target="_blank">
+    <img src="http://avatar.csdn.net/F/0/C/1_qq_34531925.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/qq_34531925" class="user_name" target="_blank">qq_34531925</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=qq_34531925','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="2" >
+                                            </a>
+               </div>
+
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>43810次</span></li>
+    <li>积分：<span>1539</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog4.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：1539 </div>
+        </span>  </li>
+    <li>排名：<span>千里之外</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>75篇</span></li>
+    <li>转载：<span>226篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>10条</span></li>
+</ul>
+</ul>
+</div>
+
+
+     
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            var url = "/" + username + "?q=" + encodeURIComponent($("#inputSearch").val());
+            window.location.href = url;
+        }   
+    });
+</script> 
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/qq_34531925/article/category/6905926" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">spring</a><span>(21)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6905927" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">mybatis</a><span>(18)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6905928" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">mysql</a><span>(22)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6906330" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">ssm框架</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6905929" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">java基础</a><span>(23)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6911027" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">设计模式</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6924330" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">java工具类</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6924368" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">json</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6929399" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">多线程</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6929994" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">jquery</a><span>(9)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6930389" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Http</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6930604" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">javascript</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6937486" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">servlet</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6939681" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">项目经验</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6943392" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">ajax异步操作</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6944379" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">性能优化</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6946971" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">springmvc</a><span>(13)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6946987" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">IO</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6947058" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">httpclient</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6952402" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数据与编码</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6956943" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">enum</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6957071" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">头牌</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6957738" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">线程</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6958343" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">jdbc</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6962423" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">jvm</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6963666" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">反射机制</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6968110" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">工具类-涂鸦</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6968133" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">技术架构设计</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6976142" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">各种问题各种经验</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6989549" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">js工具类</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6995966" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">综合类</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/6998545" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">分布式</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7009286" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">maven</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7009775" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">jackson</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7011946" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">消息队列</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7014788" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">redis</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7015489" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">linux</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7015834" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">shiro</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7016773" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">guava</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7016774" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">任务队列</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7019180" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">fastdfs</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7020010" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">App端</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7021518" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">websocket</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7023484" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">socket</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7024275" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">Map</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7026843" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数据库性能优化</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7026844" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">高并发</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7032515" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">quartz</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7040070" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">oracle</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7045778" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">环境配置</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7047017" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">hibernate</a><span>(3)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7048520" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">nosql</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7054477" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">queue</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7054782" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">通信</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7055316" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">权限控制</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7059137" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">网站安全</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7064252" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">word解析</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7064464" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">中间件</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7072651" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">图表</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7080034" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">目标</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7080714" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">进阶系列</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7086536" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">javaWeb基础</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7088597" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">缓存技术</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7088609" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">缓存技术</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7112200" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">html</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7115361" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">springboot</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7116511" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">项目管理</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7130265" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">其他框架</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7137907" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">项目模板</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7179121" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">软件安装</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7203887" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">大数据</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7249495" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">jpa</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7250306" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">电商</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7257491" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">微信开发</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7274713" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">log</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7278112" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">学习视频系列</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7284519" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">源码分析</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7288387" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">eclipse</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7318080" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">个人</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7330275" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">1--事务</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7334709" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">前段</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7347361" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">https</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7364582" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">nginx</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7365842" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数据库连接池</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/qq_34531925/article/category/7366921" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">支付相关</a><span>(1)</span>
+                </li>
+</ul>
+</div>
+<div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/qq_34531925/article/month/2017/12">2017年12月</a><span>(23)</span></li><li><a href="/qq_34531925/article/month/2017/11">2017年11月</a><span>(12)</span></li><li><a href="/qq_34531925/article/month/2017/10">2017年10月</a><span>(15)</span></li><li><a href="/qq_34531925/article/month/2017/09">2017年09月</a><span>(14)</span></li><li><a href="/qq_34531925/article/month/2017/08">2017年08月</a><span>(46)</span></li><li><a href="/qq_34531925/article/month/2017/07">2017年07月</a><span>(83)</span></li><li><a href="/qq_34531925/article/month/2017/06">2017年06月</a><span>(53)</span></li><li><a href="/qq_34531925/article/month/2017/05">2017年05月</a><span>(54)</span></li><li><a href="/qq_34531925/article/month/2017/04">2017年04月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/qq_34531925/article/details/76576643" title="POI异常解决:java.lang.ClassNotFoundException: org.apache.commons.collections4.ListValuedMap">POI异常解决:java.lang.ClassNotFoundException: org.apache.commons.collections4.ListValuedMap</a><span>(1322)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/73906396" title="Spring MVC前台使用html页面作为视图，配置静态资源后Controller控制器不起作用的解决办法">Spring MVC前台使用html页面作为视图，配置静态资源后Controller控制器不起作用的解决办法</a><span>(1218)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/76914544" title="mybatis异常:Logging initialized using &#39;class org.apache.ibatis.logging.stdout.StdOutImpl&#39; adapter">mybatis异常:Logging initialized using &#39;class org.apache.ibatis.logging.stdout.StdOutImpl&#39; adapter</a><span>(762)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/75457743" title="为什么需要消息队列，及使用消息队列的好处？">为什么需要消息队列，及使用消息队列的好处？</a><span>(620)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/78258820" title="echarts  x/y轴坐标文字过长解决办法-换行">echarts  x/y轴坐标文字过长解决办法-换行</a><span>(521)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/73331608" title="Java读取properties配置文件时，中文乱码解决方法">Java读取properties配置文件时，中文乱码解决方法</a><span>(519)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/76407274" title="weblogic详解">weblogic详解</a><span>(440)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/77719032" title="码云zheng项目介绍">码云zheng项目介绍</a><span>(426)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/74938499" title="FastDFS实现文件上传下载实战">FastDFS实现文件上传下载实战</a><span>(384)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/75095166" title="Java Web并发访问的线程安全问题">Java Web并发访问的线程安全问题</a><span>(377)</span>
+</li>
+</ul>
+</div>
+
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341"">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/qq_34531925/article/details/78484704" title="程序员闲下来干什么?">程序员闲下来干什么?</a><span>(3)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/76576643" title="POI异常解决:java.lang.ClassNotFoundException: org.apache.commons.collections4.ListValuedMap">POI异常解决:java.lang.ClassNotFoundException: org.apache.commons.collections4.ListValuedMap</a><span>(2)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/72189468" title="java设计模式( Java设计模式之观察者模式 )">java设计模式( Java设计模式之观察者模式 )</a><span>(1)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/78258820" title="echarts  x/y轴坐标文字过长解决办法-换行">echarts  x/y轴坐标文字过长解决办法-换行</a><span>(1)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/71642690" title="java编程思想(一)">java编程思想(一)</a><span>(1)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/78490127" title="spring中事物回滚与异常try catch相关">spring中事物回滚与异常try catch相关</a><span>(1)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/76684830" title="URI和URL的区别">URI和URL的区别</a><span>(1)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/71439005" title="mybatis映射器三(insert,update,delete)">mybatis映射器三(insert,update,delete)</a><span>(0)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/71405787" title="mybatis核心组件">mybatis核心组件</a><span>(0)</span>
+</li>
+<li>
+<a href="/qq_34531925/article/details/78899345" title="Druid的简介及功能？">Druid的简介及功能？</a><span>(0)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li>
+<a href="http://blog.csdn.net/csdnproduct/article/details/78647961"
+target="_blank">* 【2017年11月27日】CSDN博客更新周报</a></li>
+<br>
+<li>
+<a href="http://blog.csdn.net/blogdevteam/article/details/78287539" 
+target="_blank">* 【CSDN】邀请您来GitChat赚钱啦！</a></li>
+<br>
+<li>
+<a href="http://blog.csdn.net/blogdevteam/article/details/78625380"
+target="_blank">* 【GitChat】精选——JavaScript进阶指南</a></li>
+<br>
+
+<li>
+<a href="http://blog.csdn.net/gitchat/article/details/78546894"
+target="_blank">* 改做人工智能之前，90%的人都没能给自己定位</a></li>
+<br>
+<li>
+<a href="http://blog.csdn.net/gitchat/article/details/78546894"
+target="_blank">*  TensorFlow 人脸识别网络与对抗网络搭建</a></li>
+<br>
+<li>
+<a href="http://blog.csdn.net/gitchat/article/details/78557241"
+target="_blank">*  Vue 移动端项目生产环境优化</a></li>
+<br>
+<li>
+<a href="http://blog.csdn.net/gitchat/article/details/78546898"
+target="_blank">* 面试必考的计算机网络知识点梳理</a></li>
+
+</ul>  
+</ul>
+</div>
+
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/qq_34531925/article/details/78484704#comments">程序员闲下来干什么?</a>
+    <p style="margin:0px;"><a href="/qq_36371218" class="user_name">qq_36371218</a>:
+@qq_34531925:没有，等会，到时候一起
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/78484704#comments">程序员闲下来干什么?</a>
+    <p style="margin:0px;"><a href="/qq_34531925" class="user_name">qq_34531925</a>:
+@qq_36371218:楼主作为勤奋的化身, 智慧的代表, 怎么会玩游戏.  魔兽应该维护好了吧....
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/78484704#comments">程序员闲下来干什么?</a>
+    <p style="margin:0px;"><a href="/qq_36371218" class="user_name">qq_36371218</a>:
+楼主，收起你的假正经吧，就说玩魔兽世界嘛，没必要说那么一大堆客套话
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/78490127#comments">spring中事物回滚与异常try catch相关</a>
+    <p style="margin:0px;"><a href="/qq_34531925" class="user_name">qq_34531925</a>:
+事物传播机制的处的代码写错了,那是需要事物的特性.要求独立事物的是有后缀 _new
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/78258820#comments">echarts  x/y轴坐标文字过长解决办法-换行</a>
+    <p style="margin:0px;"><a href="/huyuyang6688" class="user_name">huyuyang6688</a>:
+亲测可用，感谢分享
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/76576643#comments">POI异常解决:java.lang.ClassNotFoundException: org.apache.commons.collections4.ListValuedMap</a>
+    <p style="margin:0px;"><a href="/qq_34531925" class="user_name">qq_34531925</a>:
+@zhangh165:解决了嘛?怎么搞的
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/76576643#comments">POI异常解决:java.lang.ClassNotFoundException: org.apache.commons.collections4.ListValuedMap</a>
+    <p style="margin:0px;"><a href="/zhangh165" class="user_name">zhangh165</a>:
+我只装了一个版本的POI也出现了该错误，给楼主一个反映一个吧
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/76684830#comments">URI和URL的区别</a>
+    <p style="margin:0px;"><a href="/qq_34531925" class="user_name">qq_34531925</a>:
+URL:资源定位符(具体位置)URI:资源唯一标识(身份的唯一性的url).
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/71642690#comments">java编程思想(一)</a>
+    <p style="margin:0px;"><a href="/wxx729418277" class="user_name">wxx729418277</a>:
+。。。我曹如此funny，我居然看不懂，甚至读不通，
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_34531925/article/details/72189468#comments">java设计模式( Java设计模式之观察者模式 )</a>
+    <p style="margin:0px;"><a href="/qq_34531925" class="user_name">qq_34531925</a>:
+观察者模式,在对象之间定义一对多的依赖.
+    </p>
+    </li>
+</ul>
+</div>
+
+    </div>
+    <div class="clear">
+    </div>
+
+                   <div class="tracking-ad" data-view="true" data-mod="ad_popu_189" data-mtp="63" data-order="40" data-con="ad_content_1259" style="width: 250px; height: 500px;">
+                        <div id="nav_show_top_stop" style="width: 250px;height: 500px;z-index:1000"><div id="cpro_u2734133">
+                             <!-- 投放代码 -->
+                             
+                            <!-- 请置于所有广告位代码之前 -->
+                            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+                            <!-- 广告位：PC端-博客详情页-左侧button1-250*250 -->
+                                    <script>
+                                        (function () {
+                                            var s = "_" + Math.random().toString(36).slice(2);
+                                            document.write('<div id="' + s + '"></div>');
+                                            (window.slotbydup = window.slotbydup || []).push({
+                                                id: '4740887',
+                                                container: s,
+                                                size: '250,250',
+                                                display: 'inlay-fix'
+                                            });
+                                        })();
+                                    </script>
+
+                                                                                                    </div>
+                            <div id="cpro_u3031286">
+                                 <!-- 投放代码 -->
+                               
+                                <!-- 请置于所有广告位代码之前 -->
+                                <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+                                <!-- 广告位：PC端-博客详情页-左侧Button2-250*250 -->
+                                <script>
+                                    (function () {
+                                        var s = "_" + Math.random().toString(36).slice(2);
+                                        document.write('<div id="' + s + '"></div>');
+                                        (window.slotbydup = window.slotbydup || []).push({
+                                            id: '4740890',
+                                            container: s,
+                                            size: '250,250',
+                                            display: 'inlay-fix'
+                                        });
+                                    })();
+                                </script>
+
+
+
+                            </div></div>
+                   </div>
+                    <script>
+
+                        setTimeout(function () {
+                            var naviga_offsetTop = 0; function naviga_stay_top() {
+                                var scrollTop = jQuery(document).scrollTop();
+                                if (scrollTop > naviga_offsetTop) {
+                                    jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                                    jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                                } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); }
+                            }
+                            function onload_function() {
+                                naviga_offsetTop = jQuery("#nav_show_top_stop").position().top;
+                                jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top);
+                                jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top);
+                            } jQuery(document).ready(onload_function);
+                        }, 200);
+
+                    </script>
+
+           </div>   
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+     
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>   
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js?v2017.041" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://csdnimg.cn/blog/csdn_public_blog_detail.min.js?20171208115"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=6386550"></script>
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+
+</body>
+</html>   
